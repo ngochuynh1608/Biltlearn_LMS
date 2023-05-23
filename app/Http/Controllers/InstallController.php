@@ -199,7 +199,7 @@ class InstallController extends Controller
     public function confirmInstall()
     {
         // run sql
-        $this->run_blank_sql();
+       // $this->run_blank_sql();
 
         // redirect to admin creation page
         return to_route('finalizing_setup');
