@@ -21,16 +21,16 @@
             </div>
             <div class="fpb-7">
                 <label for="date" class="eForm-label">{{ get_phrase('Thời gian bắt đầu') }}</label>
-                <input type="text" class="form-control eForm-control inputDate" id="date" name = "start_date" value="{{ date('d-m-y') }}">
+                <input type="text" class="form-control eForm-control inputDate" id="date" name = "start_date" value="{{ date('d/m/Y') }}">
             </div>
             <div class="fpb-7">
                 <label for="date" class="eForm-label">{{ get_phrase('Thời gian kết thúc') }}</label>
-                <input type="text" class="form-control eForm-control inputDate" id="date" name = "end_date" value="{{ date('d-m-y') }}">
+                <input type="text" class="form-control eForm-control inputDate" id="date" name = "end_date" value="{{ date('d/m/Y') }}">
             </div>
             <div class="fpb-7">
                 <label for="class_room" class="eForm-label">{{ get_phrase('Địa điểm') }}</label>
                 <select name="class_room_id" id = "class_room_on_class_creation" class="form-select eForm-select eChoice-multiple-with-remove">
-                    <option value="">{{ get_phrase('Select subject') }}</option>
+                    <option value="">{{ get_phrase('Lựa chọn địa điểm') }}</option>
                     <?php foreach($class_rooms as $class_room): ?>
                         <option value="{{ $class_room['id'] }}">{{ $class_room->name }}</option>
                     <?php endforeach; ?>
@@ -42,8 +42,15 @@
             </div>
             <div class="fpb-7">
                 <label for="department" class="eForm-label">{{ get_phrase('Đối tượng') }}</label>
+                <select name="workunit_id" id = "workunit_on_class_creation" class="form-select eForm-select eChoice-multiple-with-remove" >
+                    <option value="">{{ get_phrase('Chọn đơn vị') }}</option>
+                    <?php foreach($departments as $department): ?>
+                        <option value="{{ $department['id'] }}">{{ $department->name }}</option>
+                    <?php endforeach; ?>
+                </select>
+                <hr/>
                 <select name="department_id" id = "department_on_class_creation" class="form-select eForm-select eChoice-multiple-with-remove" >
-                    <option value="">{{ get_phrase('Lựa chọn đối tượng đào tạo') }}</option>
+                    <option value="">{{ get_phrase('Chọn phòng ban') }}</option>
                     <?php foreach($departments as $department): ?>
                         <option value="{{ $department['id'] }}">{{ $department->name }}</option>
                     <?php endforeach; ?>
@@ -79,10 +86,10 @@
         {
           singleDatePicker: true,
           showDropdowns: true,
-          minYear: 2000,
+          minYear: 2014,
           maxYear: parseInt(moment().format("YYYY"), 10),
           locale: {
-            format: 'DD-MM-YYYY'
+            format: 'DD/MM/YYYY'
             },
         },
         function (start, end, label) {

@@ -99,7 +99,7 @@
                     <div class="sidebar_icon">
                         <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 24 24" width="48" height="48"><path d="M16.5,24a1.5,1.5,0,0,1-1.489-1.335,3.031,3.031,0,0,0-6.018,0,1.5,1.5,0,0,1-2.982-.33,6.031,6.031,0,0,1,11.982,0,1.5,1.5,0,0,1-1.326,1.656A1.557,1.557,0,0,1,16.5,24Zm6.167-9.009a1.5,1.5,0,0,0,1.326-1.656A5.815,5.815,0,0,0,18.5,8a1.5,1.5,0,0,0,0,3,2.835,2.835,0,0,1,2.509,2.665A1.5,1.5,0,0,0,22.5,15,1.557,1.557,0,0,0,22.665,14.991ZM2.991,13.665A2.835,2.835,0,0,1,5.5,11a1.5,1.5,0,0,0,0-3A5.815,5.815,0,0,0,.009,13.335a1.5,1.5,0,0,0,1.326,1.656A1.557,1.557,0,0,0,1.5,15,1.5,1.5,0,0,0,2.991,13.665ZM12.077,16a3.5,3.5,0,1,0-3.5-3.5A3.5,3.5,0,0,0,12.077,16Zm6-9a3.5,3.5,0,1,0-3.5-3.5A3.5,3.5,0,0,0,18.077,7Zm-12,0a3.5,3.5,0,1,0-3.5-3.5A3.5,3.5,0,0,0,6.077,7Z"/></svg>
                     </div>
-                    <span class="link_name">{{ get_phrase('Users') }}</span>
+                    <span class="link_name">{{ get_phrase('Thành viên') }}</span>
                 </a>
                 <span class="arrow">
                   <svg
@@ -154,7 +154,7 @@
                 </a>
             </div>
         </li>
-
+        <!--
         <li class="nav-links-li {{ request()->is('admin/exam_category*') || request()->is('admin/offline_exam*') || request()->is('admin/marks') || request()->is('admin/grade') || request()->is('admin/promotion*') ? 'showMenu':'' }}">
             <div class="iocn-link">
                 <a href="#">
@@ -199,7 +199,7 @@
                 </li>
             </ul>
         </li>
-
+        -->
 
         <li class="nav-links-li {{ request()->is('admin/attendance*') || request()->is('admin/class_list*') || request()->is('admin/routine*') || request()->is('admin/subject*') || request()->is('admin/syllabus*') || request()->is('admin/gradebook*') || request()->is('admin/class_room*') || request()->is('admin/department*') ? 'showMenu':'' }}">
             <div class="iocn-link">
@@ -228,14 +228,14 @@
                 </span>
             </div>
             <ul class="sub-menu">
-                <li><a class="{{ (request()->is('admin/attendance*')) ? 'active' : '' }}" href="{{ route('admin.daily_attendance') }}"><span>
+                <!--<li><a class="{{ (request()->is('admin/attendance*')) ? 'active' : '' }}" href="{{ route('admin.daily_attendance') }}"><span>
                             {{ get_phrase('Điểm danh') }}
-                        </span></a></li>
+                        </span></a></li>-->
                 <li><a class="{{ (request()->is('admin/class_list*')) ? 'active' : '' }}" href="{{ route('admin.class_list') }}"><span>
                             {{ get_phrase('Lớp học') }}
                         </span></a></li>
-                <li><a class="{{ (request()->is('admin/routine*')) ? 'active' : '' }}" href="{{ route('admin.routine') }}"><span>
-                            {{ get_phrase('Lịch học') }}
+                <!--<li><a class="{{ (request()->is('admin/routine*')) ? 'active' : '' }}" href="{{ route('admin.routine') }}"><span>
+                            {{ get_phrase('Lịch học') }}-->
                         </span></a></li>
                 <li><a class="{{ (request()->is('admin/subject*')) ? 'active' : '' }}" href="{{ route('admin.subject_list') }}"><span>
                             {{ get_phrase('Khóa học') }}
@@ -243,8 +243,8 @@
                 <li><a class="{{ (request()->is('admin/gradebook*')) ? 'active' : '' }}" href="{{ route('admin.gradebook') }}"><span>
                             {{ get_phrase('Điểm số') }}
                         </span></a></li>
-                <li><a class="{{ (request()->is('admin/syllabus*')) ? 'active' : '' }}" href="{{ route('admin.syllabus') }}"><span>
-                            {{ get_phrase('Tài liệu') }}
+                <!--<li><a class="{{ (request()->is('admin/syllabus*')) ? 'active' : '' }}" href="{{ route('admin.syllabus') }}"><span>
+                            {{ get_phrase('Tài liệu') }}-->
                         </span></a></li>
                 <li><a class="{{ (request()->is('admin/class_room*')) ? 'active' : '' }}" href="{{ route('admin.class_room_list') }}"><span>
                             {{ get_phrase('Địa điểm học') }}
@@ -510,6 +510,53 @@
             </ul>
         </li>
 
+
+        <li class="nav-links-li">
+            <div class="iocn-link">
+                <a href="#">
+                    <div class="sidebar_icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" id="Bold" viewBox="0 0 24 24" width="48" height="48"><path d="M18.5,3h-.642A4,4,0,0,0,14,0H10A4,4,0,0,0,6.142,3H5.5A5.506,5.506,0,0,0,0,8.5v10A5.506,5.506,0,0,0,5.5,24h13A5.507,5.507,0,0,0,24,18.5V8.5A5.507,5.507,0,0,0,18.5,3ZM5.5,6h13A2.5,2.5,0,0,1,21,8.5V11H3V8.5A2.5,2.5,0,0,1,5.5,6Zm13,15H5.5A2.5,2.5,0,0,1,3,18.5V14h7a2,2,0,0,0,2,2h0a2,2,0,0,0,2-2h7v4.5A2.5,2.5,0,0,1,18.5,21Z"/></svg>
+                    </div>
+                    <span class="link_name">
+                        {{ get_phrase('Báo cáo') }}
+                    </span>
+                </a>
+                <span class="arrow">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="4.743"
+                    height="7.773"
+                    viewBox="0 0 4.743 7.773"
+                  >
+                    <path
+                      id="navigate_before_FILL0_wght600_GRAD0_opsz24"
+                      d="M1.466.247,4.5,3.277a.793.793,0,0,1,.189.288.92.92,0,0,1,0,.643A.793.793,0,0,1,4.5,4.5l-3.03,3.03a.828.828,0,0,1-.609.247.828.828,0,0,1-.609-.247.875.875,0,0,1,0-1.219L2.668,3.886.247,1.466A.828.828,0,0,1,0,.856.828.828,0,0,1,.247.247.828.828,0,0,1,.856,0,.828.828,0,0,1,1.466.247Z"
+                      fill="#fff"
+                      opacity="1"
+                    />
+                  </svg>
+                </span>
+            </div>
+            <ul class="sub-menu">
+                <!--<li><a class="{{ (request()->is('admin/book/list')) ? 'active' : '' }}" href="{{ route('admin.book.book_list') }}"><span>
+                            {{ get_phrase('Book List Manager') }}-->
+                        </span></a></li>
+                 <!--<li><a class="{{ (request()->is('admin/book_issue')) ? 'active' : '' }}" href="{{ route('admin.book_issue.list') }}"><span>
+                            {{ get_phrase('Book Issue Report') }}-->
+                        </span></a></li>
+                <li><a class="{{ (request()->is('admin/noticeboard*')) ? 'active' : '' }}" href="{{ route('admin.noticeboard.list') }}"><span>
+                            {{ get_phrase('Báo cáo đánh giá đào tạo') }}
+                        </span></a></li>
+                 <!--<li><a class="{{ (request()->is('admin/subscription')) ? 'active' : '' }}" href="{{ route('admin.subscription') }}"><span>
+                            {{ get_phrase('Subscription') }}-->
+                        </span></a></li>
+                <li>
+                    <a class="{{ (request()->is('admin/events/list*')) ? 'active' : '' }}" href="{{ route('admin.events.list') }}"><span>{{ get_phrase('Báo cáo ngân sách phân bổ') }}
+                    </span></a>
+                </li>
+            </ul>
+        </li>
+
         <li class="nav-links-li {{ request()->is('admin/settings/school*') || request()->is('admin/session_manager*') || request()->is('admin/settings/payment*') || request()->is('admin/live_class_settings*') || request()->is('admin/profile*') ? 'showMenu':'' }}">
             <div class="iocn-link">
                 <a href="#">
@@ -594,8 +641,8 @@
                 </li>
                 @endif
 
-                <li><a class="{{ (request()->is('admin/profile*')) ? 'active' : '' }}" href="{{ route('admin.profile') }}"><span>
-                        {{ get_phrase('My Account') }}
+                <li><a class="{{ (request()->is('admin/interation*')) ? 'active' : '' }}" href="{{ route('admin.profile') }}"><span>
+                        {{ get_phrase('Kết nối Bitlearn E-learning') }}
                 </span></a></li>
 
             </ul>

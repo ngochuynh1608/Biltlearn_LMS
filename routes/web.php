@@ -251,6 +251,7 @@ Route::controller(AdminController::class)->middleware('admin','auth')->group(fun
     Route::post('admin/offline_admission', 'offlineAdmissionCreate')->name('admin.offline_admission.create');
     Route::post('admin/offline_admission/bulk', 'offlineAdmissionBulkCreate')->name('admin.offline_admission.bulk_create');
     Route::post('admin/offline_admission/excel', 'offlineAdmissionExcelCreate')->name('admin.offline_admission.excel_create');
+    Route::post('admin/offline_admission/excelstep1', 'offlineAdmissionExcelparseImport')->name('admin.offline_admission.excel_create_step1');
     Route::get('admin/offline_admission_preview', function () {
         return view('admin.offline_admission.csv_preview');
     })->name('admin.offline_admission.preview');

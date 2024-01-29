@@ -17,13 +17,13 @@ use App\Models\User;
           <div class="d-flex flex-column">
             <h4>{{ get_phrase('Classes') }}</h4>
             <ul class="d-flex align-items-center eBreadcrumb-2">
-              <li><a href="#">{{ get_phrase('Home') }}</a></li>
-              <li><a href="#">{{ get_phrase('Academic') }}</a></li>
-              <li><a href="#">{{ get_phrase('Classes') }}</a></li>
+              <li><a href="#">{{ get_phrase('Bảng điều khiển') }}</a></li>
+              <li><a href="#">{{ get_phrase('Quản lý học tập') }}</a></li>
+              <li><a href="#">{{ get_phrase('Lớp học') }}</a></li>
             </ul>
           </div>
           <div class="export-btn-area">
-            <a href="javascript:;" class="export_btn" onclick="rightModal('{{ route('admin.class.open_modal') }}', '{{ get_phrase('Create Class') }}')">{{ get_phrase('Add class') }}</a>
+            <a href="javascript:;" class="export_btn" onclick="rightModal('{{ route('admin.class.open_modal') }}', '{{ get_phrase('Tạo lớp') }}')">{{ get_phrase('Tạo lớp') }}</a>
           </div>
         </div>
       </div>
@@ -144,19 +144,31 @@ use App\Models\User;
                                           data-bs-toggle="dropdown"
                                           aria-expanded="false"
                                         >
-                                          {{ get_phrase('Actions') }}
+                                          {{ get_phrase('Hành động') }}
                                         </button>
                                         <ul
                                           class="dropdown-menu dropdown-menu-end eDropdown-menu-2 eDropdown-table-action"
                                         >
                                           <li>
-                                            <a class="dropdown-item" href="javascript:;" onclick="rightModal('{{ route('admin.edit.section', ['id' => $class_list->id]) }}', '{{ get_phrase('Edit Section') }}')">{{ get_phrase('Edit Section') }}</a>
+                                            <a class="dropdown-item" href="javascript:;" onclick="rightModal('{{ route('admin.edit.class', ['id' => $class_list->id]) }}', '{{ get_phrase('Chỉnh sửa') }}')">{{ get_phrase('Chỉnh sửa') }}</a>
                                           </li>
                                           <li>
-                                            <a class="dropdown-item" href="javascript:;" onclick="rightModal('{{ route('admin.edit.class', ['id' => $class_list->id]) }}', '{{ get_phrase('Edit Class') }}')">{{ get_phrase('Edit Class') }}</a>
+                                            <a class="dropdown-item" href="javascript:;" onclick="rightModal('{{ route('admin.edit.section', ['id' => $class_list->id]) }}', '{{ get_phrase('Thiết lập nội dung') }}')">{{ get_phrase('Thiết lập nội dung') }}</a>
                                           </li>
                                           <li>
-                                            <a class="dropdown-item" href="javascript:;" onclick="confirmModal('{{ route('admin.class.delete', ['id' => $class_list->id]) }}', 'undefined');">{{ get_phrase('Delete') }}</a>
+                                            <a class="dropdown-item" href="javascript:;" onclick="rightModal('{{ route('admin.edit.section', ['id' => $class_list->id]) }}', '{{ get_phrase('Điểm danh') }}')">{{ get_phrase('Điểm danh') }}</a>
+                                          </li>
+                                          <li>
+                                            <a class="dropdown-item" href="javascript:;" onclick="rightModal('{{ route('admin.edit.section', ['id' => $class_list->id]) }}', '{{ get_phrase('Chi phí') }}')">{{ get_phrase('Chi phí') }}</a>
+                                          </li>
+                                          <li>
+                                            <a class="dropdown-item" href="javascript:;" onclick="rightModal('{{ route('admin.edit.section', ['id' => $class_list->id]) }}', '{{ get_phrase('Báo cáo tổng quan') }}')">{{ get_phrase('Báo cáo tổng quan') }}</a>
+                                          </li>
+                                          <li>
+                                            <a class="dropdown-item" href="javascript:;" onclick="rightModal('{{ route('admin.edit.section', ['id' => $class_list->id]) }}', '{{ get_phrase('Cập nhật điểm') }}')">{{ get_phrase('Điểm số') }}</a>
+                                          </li>
+                                          <li>
+                                            <a class="dropdown-item" href="javascript:;" onclick="confirmModal('{{ route('admin.class.delete', ['id' => $class_list->id]) }}', 'undefined');">{{ get_phrase('Xóa') }}</a>
                                           </li>
                                         </ul>
                                     </div>

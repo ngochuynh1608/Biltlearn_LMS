@@ -1,4 +1,4 @@
-<form method="POST" class="col-md-12 ajaxForm" action="{{ route('admin.offline_admission.excel_create') }}" id = "student_admission_form" enctype="multipart/form-data">
+<form method="POST" class="col-md-12 ajaxForm" action="{{ route('admin.offline_admission.excel_create_step1') }}" id = "student_admission_form" enctype="multipart/form-data">
     @csrf 
     <div class="row justify-content-md-center">
         <div class="col-xl-4">

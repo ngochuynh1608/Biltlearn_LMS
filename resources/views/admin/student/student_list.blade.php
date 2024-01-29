@@ -19,13 +19,13 @@ use App\Models\Section;
           <div class="d-flex flex-column">
             <h4>{{ get_phrase('Students') }}</h4>
             <ul class="d-flex align-items-center eBreadcrumb-2">
-              <li><a href="#">{{ get_phrase('Home') }}</a></li>
-              <li><a href="#">{{ get_phrase('Users') }}</a></li>
-              <li><a href="#">{{ get_phrase('Students') }}</a></li>
+              <li><a href="#">{{ get_phrase('Bảng điều khiển') }}</a></li>
+              <li><a href="#">{{ get_phrase('Nhân sự') }}</a></li>
+              <li><a href="#">{{ get_phrase('Học viên') }}</a></li>
             </ul>
           </div>
           <div class="export-btn-area">
-            <a href="{{ route('admin.offline_admission.single', ['type' => 'single']) }}" class="export_btn">{{ get_phrase('Create Student') }}</a>
+            <a href="{{ route('admin.offline_admission.single', ['type' => 'single']) }}" class="export_btn">{{ get_phrase('Tạo học viên') }}</a>
           </div>
         </div>
       </div>
@@ -99,13 +99,13 @@ use App\Models\Section;
                         />
                       </svg>
                     </span>
-                    {{ get_phrase('Filter') }}
+                    {{ get_phrase('Lọc') }}
                   </button>
                   <div
                     class="dropdown-menu dropdown-menu-end filter-options"
                     aria-labelledby="defaultDropdown"
                   >
-                    <h4 class="title">{{ get_phrase('Filter Options') }}</h4>
+                    <h4 class="title">{{ get_phrase('Bộ lọc') }}</h4>
                     <form action="{{ route('admin.student') }}">
                       <div class="filter-option d-flex flex-column">
                         @if($search != '')
@@ -200,25 +200,33 @@ use App\Models\Section;
             @if(count($students) > 0)
             <!-- Table -->
             <div class="table-responsive">
-              <table class="table eTable eTable-2">
-                <thead>
+              <table class="table eTable eTable-2 table-bordered" style="display: block;
+  max-width: -moz-fit-content;
+  max-width: fit-content;
+  margin: 0 auto;
+  overflow-x: auto;
+  white-space: nowrap;">
+                <thead style="font-weight: 900;">
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">{{ get_phrase('Name') }}</th>
                     <th scope="col">{{ get_phrase('Email') }}</th>
-                    <th scope="col">{{ get_phrase('User Info') }}</th>
-                    <th scope="col">{{ get_phrase('Options') }}</th>
+                    <th scope="col">{{ get_phrase('Thông tin đơn vị') }}</th>
+                    <th scope="col">{{ get_phrase('Thông tin cá nhân') }}</th>
+                    <th scope="col">{{ get_phrase('Bắt đầu làm việc') }}</th>
+                    <th scope="col">{{ get_phrase('Cam kết bồi hoàn') }}</th>
+                    <th scope="col">{{ get_phrase('Chi phí đào tạo') }}</th>
+                    <th scope="col">{{ get_phrase('Hành động') }}</th>
                 </thead>
                 <tbody>
                     @foreach($students as $key => $user)
                     <?php 
+                        $student = DB::table('users')->where('id', $user->id)->first();
 
-                        $student = DB::table('users')->where('id', $user->user_id)->first();
+                        $user_image = get_user_image($user->id);
+                        $info = json_decode($user->user_information);
 
-                        $user_image = get_user_image($user->user_id);
-                        $info = json_decode($student->user_information);
-
-                        $student_details = (new CommonController)->get_student_academic_info($student->id);
+                        $student_details = (new CommonController)->get_student_academic_info($user->id);
                     ?>
                       <tr>
                         <th scope="row">
@@ -238,25 +246,46 @@ use App\Models\Section;
                             </div>
                             <div class="dAdmin_profile_name dAdmin_info_name">
                               <h4>{{ $student->name }}</h4>
-                              <p>
-                                <span>{{ get_phrase('Class') }}:</span> {{ $student_details->class_name }}
-                                <br>
-                                <span>{{ get_phrase('Section') }}:</span> {{ $student_details->section_name }}
-                              </p>
+                              <span>{{ get_phrase('Mã nhân viên') }}:</span> {{ $user->code }}
+                              <br>
                             </div>
                           </div>
                         </td>
                         <td>
-                          <div class="dAdmin_info_name min-w-250px">
+                          <div class="dAdmin_info_name">
                             <p>{{ $student->email }}</p>
                           </div>
                         </td>
                         <td>
-                          <div class="dAdmin_info_name min-w-250px">
-                            <p><span>{{ get_phrase('Phone') }}:</span> {{ $info->phone }}</p>
+                        <div class="dAdmin_info_name">
+                          <p>
+                              <span>{{ get_phrase('Đơn vị') }}:</span> {{ $user->workunit }}
+                              <br>
+                              <span>{{ get_phrase('Bộ phận') }}:</span> {{ $user->department }}
+                          </p>
+                        </div>
+                        </td>
+                        <td>
+                          <div class="dAdmin_info_name">
+                            <p><span>{{ get_phrase('Điện thoại') }}:</span> {{ $info->phone }}</p>
                             <p>
-                              <span>{{ get_phrase('Address') }}:</span> {{ $info->address }}
+                              <span>{{ get_phrase('Địa chỉ') }}:</span> {{ $info->address }}
                             </p>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="dAdmin_info_name">
+                            <p>{{ $student->workstartdate }}</p>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="dAdmin_info_name">
+                            <p>{{ $student->commitnent }}</p>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="dAdmin_info_name">
+                            <p>{{ $student->training_costs }}</p>
                           </div>
                         </td>
                         <td>
@@ -319,18 +348,18 @@ use App\Models\Section;
     <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">{{ get_phrase('Name') }}</th>
+        <th scope="col">{{ get_phrase('Tên') }}</th>
         <th scope="col">{{ get_phrase('Email') }}</th>
-        <th scope="col">{{ get_phrase('User Info') }}</th>
+        <th scope="col">{{ get_phrase('Thông tin cá nhân') }}</th>
     </thead>
     <tbody>
       @foreach($students as $user)
       <?php 
 
-          $student = DB::table('users')->where('id', $user->user_id)->first();
+          $student = DB::table('users')->where('id', $user->id)->first();
 
-          $user_image = get_user_image($user->user_id);
-          $info = json_decode($student->user_information);
+          $user_image = get_user_image($user->id);
+          $info = json_decode($user->user_information);
 
           $student_details = (new CommonController)->get_student_academic_info($student->id);
       ?>
@@ -353,7 +382,11 @@ use App\Models\Section;
               <div class="dAdmin_profile_name dAdmin_info_name">
                 <h4>{{ $student->name }}</h4>
                 <p>
-                  <span>{{ get_phrase('Class') }}:</span> {{ $student_details->class_name }}
+                  <span>{{ get_phrase('Mã nhân viên') }}:</span> {{ $user->code }}
+                  <br>
+                  <span>{{ get_phrase('Đơn vị') }}:</span> {{ $user->workunit }}
+                  <br>
+                  <span>{{ get_phrase('Bộ phận') }}:</span> {{ $user->department }}
                 </p>
               </div>
             </div>
@@ -376,7 +409,7 @@ use App\Models\Section;
       @endforeach
   </tbody>
   </table>
-  {{!! $students->appends(request()->all())->links() !!}
+  {!! $students->appends(request()->all())->links() !!}
 </div>
 @endif
 

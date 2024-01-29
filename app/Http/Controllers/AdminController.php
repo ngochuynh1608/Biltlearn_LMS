@@ -846,17 +846,21 @@ class AdminController extends Controller
 
         $users->where('users.school_id', auth()->user()->school_id)
         ->where('users.role_id', 7);
+    
+        if($class_id  != "" && $section_id != ""){
+            if($section_id == 'all' || $section_id != ""){
+                $users->where('section_id', $section_id);
+            }
 
-        if($section_id == 'all' || $section_id != ""){
-            $users->where('section_id', $section_id);
+            if($class_id == 'all' || $class_id != ""){
+                $users->where('class_id', $class_id);
+            }
+            $students = $users->join('enrollments', 'users.id', '=', 'enrollments.user_id')->paginate(10);
+        }
+        else{
+            $students = $users->paginate(10);
         }
 
-        if($class_id == 'all' || $class_id != ""){
-            $users->where('class_id', $class_id);
-        }
-
-        $students = $users->join('enrollments', 'users.id', '=', 'enrollments.user_id')->select('enrollments.*')->paginate(10);
-        
         $classes = Classes::get()->where('school_id', auth()->user()->school_id);
 
         return view('admin.student.student_list', compact('students', 'search', 'classes', 'class_id', 'section_id'));
@@ -915,7 +919,9 @@ class AdminController extends Controller
         $user = User::find($id);
         $student_details = (new CommonController)->get_student_details_by_id($id);
         $classes = Classes::get()->where('school_id', auth()->user()->school_id);
-        return view('admin.student.edit_student', ['user' => $user, 'student_details' => $student_details, 'classes' => $classes]);
+        $departments = Department::get()->where('school_id', auth()->user()->school_id);
+        $workunits = Workunit::get()->where('school_id', auth()->user()->school_id);
+        return view('admin.student.edit_student', ['user' => $user, 'student_details' => $student_details, 'departments' => $departments ,'workunits' => $workunits]);
     }
 
     public function studentUpdate(Request $request, $id)
@@ -939,9 +945,6 @@ class AdminController extends Controller
             }
         }
         $info = array(
-            'gender' => $data['gender'],
-            'blood_group' => $data['blood_group'],
-            'birthday' => strtotime($data['birthday']),
             'phone' => $data['phone'],
             'address' => $data['address'],
             'photo' => $photo
@@ -949,14 +952,17 @@ class AdminController extends Controller
         $data['user_information'] = json_encode($info);
         User::where('id', $id)->update([
             'name' => $data['name'],
+            'code' => $data['code'],
             'email' => $data['email'],
+            'department' => $data['department_id'],
+            'workunit' => $data['workunit_id'],
             'user_information' => $data['user_information'],
         ]);
 
-        Enrollment::where('user_id', $id)->update([
+        /*Enrollment::where('user_id', $id)->update([
             'class_id' => $data['class_id'],
             'section_id' => $data['section_id'],
-        ]);
+        ]);*/
 
         return redirect()->back()->with('message','You have successfully update student.');
     }
@@ -1096,7 +1102,6 @@ class AdminController extends Controller
         $info = array(
             //'gender' => $data['gender'],
             //'blood_group' => $data['blood_group'],
-            //'birthday' => strtotime($data['eDefaultDateRange']),
             'phone' => $data['phone'],
             'address' => $data['address'],
             'photo' => $photo
@@ -1116,23 +1121,16 @@ class AdminController extends Controller
                 'email' => $data['email'],
                 'password' => Hash::make($data['password']),
                 'code' => $data['code'],
-                'department_id' => $data['department_id'],
-                'workunit_id' => $data['workunit_id'],
+                'department' => $data['department_id'],
+                'workunit' => $data['workunit_id'],
                 'title'         => $data['title'],
                 'role_id' => '7',
                 'school_id' => auth()->user()->school_id,
+                'workstartdate' => strtotime($data['eDefaultDateRange']),
+                'commitnent' => $data['commitnent'],
                 'user_information' => $data['user_information'],
             ]);
-
-            Enrollment::create([
-                'user_id' => $user->id,
-                'class_id' => $data['class_id'],
-                'section_id' => $data['section_id'],
-                'school_id' => auth()->user()->school_id,
-                'session_id' => $active_session,
-            ]);
-
-            return redirect()->back()->with('message','Admission successfully done.');
+            return redirect()->back()->with('message','Thêm học viên thành công.');
 
         } else {
 
@@ -1206,6 +1204,41 @@ class AdminController extends Controller
 
             return redirect()->back()->with('message','Students added successfully');
         }
+    }
+
+    public function offlineAdmissionExcelparseImport(Request $request)
+    {
+        $data = $request->all();
+
+        $file = $data['csv_file'];
+
+        if ($file) {
+            $filename = $file->getClientOriginalName();
+            $extension = $file->getClientOriginalExtension(); //Get extension of uploaded file
+           
+            // Upload file
+            $file->move(public_path('assets/csv_file/'), $filename);
+
+            // In case the uploaded file path is to be stored in the database
+            $filepath = asset('public/assets/csv_file/'.$filename);
+        }
+        //$data_csv = array_map('str_getcsv', file($filepath));
+
+        if (($handle = fopen($filepath, 'r')) !== FALSE) { // Check the resource is valid
+            $all_data = fgetcsv($handle, 1000, ",");
+
+            print_r($all_data);
+            exit;
+        }
+
+        $csv_data_file = array([
+            'csv_filename' => $file->getClientOriginalName(),
+            'csv_header' => $file->has('header'),
+            'csv_data' => json_encode($data)
+        ]);
+    
+        $csv_data = array_slice($data_csv, 0, 2);
+        return view('admin.offline_admission.import_fields', compact('csv_data', 'csv_data_file'));
     }
 
     public function offlineAdmissionExcelCreate(Request $request)

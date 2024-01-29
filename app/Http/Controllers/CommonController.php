@@ -58,14 +58,16 @@ class CommonController extends Controller
         $enrol_data['parent_name'] = $parent_details->name??"";
         $enrol_data['name'] = $student->name;
         $enrol_data['email'] = $student->email;
+        $enrol_data['department'] = $student->department;
+        $enrol_data['workunit'] = $student->workunit;
 
         $enrol_data['role'] = $role->name;
 
         $enrol_data['address'] = $info->address;
         $enrol_data['phone'] = $info->phone;
-        $enrol_data['birthday'] = $info->birthday;
-        $enrol_data['gender'] = $info->gender;
-        $enrol_data['blood_group'] = $info->blood_group??"";
+        //$enrol_data['birthday'] = $info->birthday;
+        //$enrol_data['gender'] = $info->gender;
+        //$enrol_data['blood_group'] = $info->blood_group??"";
         $enrol_data['photo'] = get_user_image($id);
         $enrol_data['school_id'] = $student->school_id;
         $enrol_data['school_name'] = $school_name;
@@ -85,9 +87,9 @@ class CommonController extends Controller
         //Fetch Details
         $enrol_data = Enrollment::where('user_id', $id)->first();
         $student = User::find($id);
-        $class_details = Classes::find($enrol_data->class_id);
+        //$class_details = Classes::find($enrol_data->class_id);
 
-        $section_details = Section::find($enrol_data->section_id);
+        //$section_details = Section::find($enrol_data->section_id);
 
         //End Fetch
 
@@ -96,12 +98,12 @@ class CommonController extends Controller
         $enrol_data['user_id'] = $id;
         $enrol_data['name'] = $student->name;
         $enrol_data['email'] = $student->email;
-
-
-        $enrol_data['class_name'] = $class_details->name;
+        $enrol_data['department'] = $student->department;
+        $enrol_data['workunit'] = $student->workunit;
+        /*$enrol_data['class_name'] = $class_details->name;
         $enrol_data['class_id'] = $class_details->id;
         $enrol_data['section_name'] = $section_details->name;
-        $enrol_data['section_id'] = $section_details->id;
+        $enrol_data['section_id'] = $section_details->id;*/
 
         return $enrol_data;
     }

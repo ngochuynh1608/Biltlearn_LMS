@@ -10,13 +10,13 @@
                 <div class="d-flex flex-column">
                     <h4>{{ get_phrase('Expense') }}</h4>
                     <ul class="d-flex align-items-center eBreadcrumb-2">
-                        <li><a href="#">{{ get_phrase('Home') }}</a></li>
-                        <li><a href="#">{{ get_phrase('Accounting') }}</a></li>
-                        <li><a href="#">{{ get_phrase('Expense Manager') }}</a></li>
+                        <li><a href="#">{{ get_phrase('Trang chủ') }}</a></li>
+                        <li><a href="#">{{ get_phrase('Tài chính') }}</a></li>
+                        <li><a href="#">{{ get_phrase('Quản lý chi phí') }}</a></li>
                     </ul>
                 </div>
                 <div class="export-btn-area">
-                    <a href="javascript:;" class="export_btn" onclick="rightModal('{{ route('admin.expenses.open_modal') }}', '{{ get_phrase('Create Expense') }}')"><i class="bi bi-plus"></i>{{ get_phrase('Add New Expense') }}</a>
+                    <a href="javascript:;" class="export_btn" onclick="rightModal('{{ route('admin.expenses.open_modal') }}', '{{ get_phrase('Tạo chi phí') }}')"><i class="bi bi-plus"></i>{{ get_phrase('Thêm chi phí') }}</a>
                 </div>
             </div>
         </div>
@@ -37,7 +37,7 @@
 
                             <div class="col-xl-4 mb-3">
                                 <select class="form-select eForm-select eChoice-multiple-with-remove" name="expense_category_id" id="expense_category_id">
-                                    <option value="all">{{ get_phrase('Expense category') }}</option>
+                                    <option value="all">{{ get_phrase('Danh mục chi phí') }}</option>
                                     @foreach ($expense_categories as $expense_category)
                                         <option value="{{ $expense_category->id }}" {{ $selected_category->id == $expense_category->id ?  'selected':'' }}>{{ $expense_category->name }}</option>
                                     @endforeach
@@ -60,7 +60,7 @@
                         @endif
 
                         <div class="col-xl-2 mb-3">
-                            <button type="submit" class="eBtn eBtn btn-secondary form-control">{{ get_phrase('Filter') }}</button>
+                            <button type="submit" class="eBtn eBtn btn-secondary form-control">{{ get_phrase('Bộ lọc') }}</button>
                         </div>
                         @if(count($expenses) > 0)
                         <div class="col-md-2">

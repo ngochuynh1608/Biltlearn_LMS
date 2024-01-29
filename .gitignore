@@ -4,3 +4,4 @@ storage/*.key
 .env
 /.vagrant
 .phpunit.result.cache
+storage/framework/views/

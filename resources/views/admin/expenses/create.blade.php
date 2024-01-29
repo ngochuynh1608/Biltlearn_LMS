@@ -3,7 +3,7 @@
     <div class="form-row">
         <div class="fpb-7">
             <label for="date" class="eForm-label">{{ get_phrase('Ngày') }}</label>
-            <input type="text" class="form-control eForm-control inputDate" id="date" name = "date" value="{{ date('d-m-Y') }}" required>
+            <input type="text" class="form-control eForm-control inputDate" id="date" name = "date" value="{{ date('d/m/Y') }}" required>
         </div>
         
         <div class="fpb-7">
@@ -50,7 +50,7 @@
           minYear: 2000,
           maxYear: parseInt(moment().format("YYYY"), 10),
           locale: {
-            format: 'DD-MM-YYYY'
+            format: 'DD/MM/YYYY'
             },
         },
         function (start, end, label) {
