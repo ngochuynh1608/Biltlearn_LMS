@@ -1,4 +1,4 @@
-<?php use App\Models\Classes; ?>
+<?php use App\Models\CategoriesSubject; ?>
 
 @extends('admin.navigation')
    
@@ -13,12 +13,12 @@
             <h4>{{ get_phrase('Subjects') }}</h4>
             <ul class="d-flex align-items-center eBreadcrumb-2">
               <li><a href="#">{{ get_phrase('Home') }}</a></li>
-              <li><a href="#">{{ get_phrase('Academic') }}</a></li>
-              <li><a href="#">{{ get_phrase('Subjects') }}</a></li>
+              <li><a href="#">{{ get_phrase('Quản lý học tập') }}</a></li>
+              <li><a href="#">{{ get_phrase('Khóa học') }}</a></li>
             </ul>
           </div>
           <div class="export-btn-area">
-            <a href="javascript:;" class="export_btn" onclick="rightModal('{{ route('admin.subject.open_modal') }}', '{{ get_phrase('Create Subject') }}')"><i class="bi bi-plus"></i>{{ get_phrase('Add subject') }}</a>
+            <a href="javascript:;" class="export_btn" onclick="rightModal('{{ route('admin.subject.open_modal') }}', '{{ get_phrase('Tạo khóa học') }}')"><i class="bi bi-plus"></i>{{ get_phrase('Tạo khóa học') }}</a>
           </div>
         </div>
       </div>
@@ -31,15 +31,15 @@
                 <div class="row mt-3">
                     <div class="col-md-4"></div>
                     <div class="col-md-3">
-                        <select name="class_id" id="class_id" class="form-select eForm-select eChoice-multiple-with-remove" required onchange="classWiseSection(this.value)">
-                            <option value="">{{ get_phrase('Select a class') }}</option>
-                            @foreach($classes as $class)
-                                <option value="{{ $class->id }}" {{ $class_id == $class->id ?  'selected':'' }}>{{ $class->name }}</option>
+                        <select name="category_id" id="category_id" class="form-select eForm-select eChoice-multiple-with-remove" required onchange="classWiseSection(this.value)">
+                            <option value="">{{ get_phrase('Lựa chọn chuyên mục') }}</option>
+                            @foreach($categories as $category)
+                                <option value="{{ $category->id }}" {{ $category_id == $category->id ?  'selected':'' }}>{{ $category->name }}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="col-md-4">
-                        <button class="eBtn eBtn btn-secondary" type="submit" id = "filter_routine">{{ get_phrase('Filter') }}</button>
+                        <button class="eBtn eBtn btn-secondary" type="submit" id = "filter_routine">{{ get_phrase('Bộ lọc') }}</button>
                     </div>
                 </div>
             </form>
@@ -50,18 +50,18 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>{{ get_phrase('Name') }}</th>
-                            <th>{{ get_phrase('Class') }}</th>
-                            <th class="text-end">{{ get_phrase('Action') }}</th>
+                            <th>{{ get_phrase('Tên khóa học') }}</th>
+                            <th>{{ get_phrase('Chuyên mục') }}</th>
+                            <th class="text-end">{{ get_phrase('Hành động') }}</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($subjects as $key => $subject)
-                            <?php $class = Classes::get()->where('id', $subject->class_id)->first(); ?>
+                            <?php $category = CategoriesSubject::get()->where('id', $subject->category_id)->first(); ?>
                              <tr>
                                 <td>{{ $subjects->firstItem() + $key }}</td>
                                 <td>{{ $subject->name }}</td>
-                                <td>{{ $class->name }}</td>
+                                <td>{{ $category->name }}</td>
                                 <td class="text-start">
                                     <div class="adminTable-action">
                                         <button
@@ -70,16 +70,16 @@
                                           data-bs-toggle="dropdown"
                                           aria-expanded="false"
                                         >
-                                          {{ get_phrase('Actions') }}
+                                          {{ get_phrase('Hành động') }}
                                         </button>
                                         <ul
                                           class="dropdown-menu dropdown-menu-end eDropdown-menu-2 eDropdown-table-action"
                                         >
                                           <li>
-                                            <a class="dropdown-item" href="javascript:;" onclick="rightModal('{{ route('admin.edit.subject', ['id' => $subject->id]) }}', '{{ get_phrase('Edit Subject') }}')">{{ get_phrase('Edit') }}</a>
+                                            <a class="dropdown-item" href="javascript:;" onclick="rightModal('{{ route('admin.edit.subject', ['id' => $subject->id]) }}', '{{ get_phrase('Chỉnh sửa') }}')">{{ get_phrase('Chỉnh sửa') }}</a>
                                           </li>
                                           <li>
-                                            <a class="dropdown-item" href="javascript:;" onclick="confirmModal('{{ route('admin.subject.delete', ['id' => $subject->id]) }}', 'undefined');">{{ get_phrase('Delete') }}</a>
+                                            <a class="dropdown-item" href="javascript:;" onclick="confirmModal('{{ route('admin.subject.delete', ['id' => $subject->id]) }}', 'undefined');">{{ get_phrase('Xóa') }}</a>
                                           </li>
                                         </ul>
                                     </div>

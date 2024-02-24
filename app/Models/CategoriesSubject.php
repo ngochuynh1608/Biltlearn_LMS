@@ -5,9 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Subject extends Model
+class CategoriesSubject extends Model
 {
     use HasFactory;
+
+    protected $table = 'categories_subject';
 
     /**
      * The attributes that are mass assignable.
@@ -15,6 +17,6 @@ class Subject extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'category_id', 'school_id', 'session_id'
+        'name', 'school_id'
     ];
 }

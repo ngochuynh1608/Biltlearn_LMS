@@ -38,6 +38,7 @@ use App\Models\Currency;
 use App\Models\PaymentHistory;
 use App\Models\TeacherPermission;
 use App\Models\Payments;
+use App\Models\CategoriesSubject;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
@@ -1119,7 +1120,7 @@ class AdminController extends Controller
             $user = User::create([
                 'name' => $data['name'],
                 'email' => $data['email'],
-                'password' => Hash::make($data['password']),
+                'password' => md5($data['password']),
                 'code' => $data['code'],
                 'department' => $data['department_id'],
                 'workunit' => $data['workunit_id'],
@@ -2148,49 +2149,49 @@ class AdminController extends Controller
      */
     public function subjectList(Request $request)
     {
-        $classes = Classes::where('school_id', auth()->user()->school_id)->get();
+        $categories = CategoriesSubject::where('school_id', auth()->user()->school_id)->get();
 
-        if(count($request->all()) > 0 && $request->class_id != ''){
+        if(count($request->all()) > 0 && $request->category_id != ''){
 
             $data = $request->all();
-            $class_id = $data['class_id'] ?? '';
-            $subjects = Subject::where('class_id', $class_id)->paginate(10);
+            $category_id = $data['category_id'] ?? '';
+            $subjects = Subject::where('category_id', $category_id)->paginate(10);
 
         } else {
             $subjects = Subject::where('school_id', auth()->user()->school_id)->paginate(10);
 
-            $class_id = '';
+            $category_id = '';
         }
 
-        return view('admin.subject.subject_list', compact('subjects', 'classes', 'class_id'));
+        return view('admin.subject.subject_list', compact('subjects', 'categories', 'category_id'));
     }
 
     public function createSubject()
     {
-        $classes = Classes::where('school_id', auth()->user()->school_id)->get();
-        return view('admin.subject.add_subject', ['classes' => $classes]);
+        $categories = CategoriesSubject::where('school_id', auth()->user()->school_id)->get();
+        return view('admin.subject.add_subject', ['categories' => $categories]);
     }
 
     public function subjectCreate(Request $request)
     {
         $data = $request->all();
         $active_session = get_school_settings(auth()->user()->school_id)->value('running_session');
-
         Subject::create([
             'name' => $data['name'],
-            'class_id' => $data['class_id'],
+            'category_id' => $data['category_id'],
             'school_id' => auth()->user()->school_id,
             'session_id' => $active_session,
         ]);
         
-        return redirect('/admin/subject?class_id='.$data['class_id'])->with('message','You have successfully create subject.');
+        return redirect('/admin/subject?category_id='.$data['category_id'])->with('message','Tạo khóa học thành công.');
     }
 
     public function editSubject($id)
     {
         $subject = Subject::find($id);
-        $classes = Classes::where('school_id', auth()->user()->school_id)->get();
-        return view('admin.subject.edit_subject', ['subject' => $subject, 'classes' => $classes]);
+
+        $categories = CategoriesSubject::where('school_id', auth()->user()->school_id)->get();
+        return view('admin.subject.edit_subject', ['subject' => $subject, 'categories' => $categories]);
     }
 
     public function subjectUpdate(Request $request, $id)
@@ -2198,11 +2199,11 @@ class AdminController extends Controller
         $data = $request->all();
         Subject::where('id', $id)->update([
             'name' => $data['name'],
-            'class_id' => $data['class_id'],
+            'category_id' => $data['category_id'],
             'school_id' => auth()->user()->school_id,
         ]);
         
-        return redirect('/admin/subject?class_id='.$data['class_id'])->with('message','You have successfully update subject.');
+        return redirect('/admin/subject?category_id='.$data['category_id'])->with('message','Cập nhật khóa học thành công.');
     }
 
     public function subjectDelete($id)
@@ -2210,7 +2211,7 @@ class AdminController extends Controller
         $subject = Subject::find($id);
         $subject->delete();
         $subjects = Subject::get()->where('school_id', auth()->user()->school_id);
-        return redirect()->back()->with('message','You have successfully delete subject.');
+        return redirect()->back()->with('message','Đã xóa khóa học.');
     }
     /**
      * Show the work unit list

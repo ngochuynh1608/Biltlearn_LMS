@@ -63,14 +63,14 @@
               d="M22.5 29V10H25.5V29ZM22.5 38V35H25.5V38Z" />
           </svg>
         </div>
-        <p>{{ get_phrase('Are you sure?') }}</p>
-        <p class="focus-text">{{ get_phrase('You won\'t able to revert this!') }}</p>
+        <p>{{ get_phrase('Xóa dữ liệu ?') }}</p>
+        <p class="focus-text">{{ get_phrase('Bạn có chắc muốn thực hiện hành động này. Bạn không thể khôi phục lại khi xóa !') }}</p>
         <div class="confirmBtn">
           <a href="javascript:;" id="confirmBtn" class="eBtn eBtn-green">
-            <button type="button" id="confirmBtn" class="eBtn eBtn-green">{{ get_phrase('Yes') }}</button>
+            <button type="button" id="confirmBtn" class="eBtn eBtn-green">{{ get_phrase('Chắc chắn') }}</button>
           </a>
           <button type="button" class="eBtn eBtn-red"
-            data-bs-dismiss="modal">{{ get_phrase('Cancel') }}</button>
+            data-bs-dismiss="modal">{{ get_phrase('Hủy bỏ') }}</button>
         </div>
       </div>
     </div>

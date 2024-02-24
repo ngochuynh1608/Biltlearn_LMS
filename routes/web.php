@@ -343,9 +343,17 @@ Route::controller(AdminController::class)->middleware('admin','auth')->group(fun
     Route::get('admin/subject/delete/{id}', 'subjectDelete')->name('admin.subject.delete');
 
 
-    //Depertment routes
+    //Work Unit routes
     Route::get('admin/work_unit', 'workunitList')->name('admin.workunit_list');
     Route::get('admin/work_unit_create', 'createWorkunit')->name('admin.workunit.open_modal');
+    Route::post('admin/work_unit', 'workUnitCreate')->name('admin.create.workunit');
+    Route::get('admin/work_unit/{id}', 'editWorkunit')->name('admin.edit.workunit');
+    Route::post('admin/work_unit/{id}', 'workunitUpdate')->name('admin.workunit.update');
+    Route::get('admin/work_unit/delete/{id}', 'workunitDelete')->name('admin.workunit.delete');
+
+    //Categories Subject routes
+    Route::get('admin/category_subject', 'categorysubject')->name('admin.category_subject');
+    Route::get('admin/category_subject', 'categorysubject')->name('admin.workunit.open_modal');
     Route::post('admin/work_unit', 'workUnitCreate')->name('admin.create.workunit');
     Route::get('admin/work_unit/{id}', 'editWorkunit')->name('admin.edit.workunit');
     Route::post('admin/work_unit/{id}', 'workunitUpdate')->name('admin.workunit.update');
