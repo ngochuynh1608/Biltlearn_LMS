@@ -53,7 +53,7 @@
 	                <div
 	                  class="dsHeader d-flex justify-content-between align-items-center"
 	                >
-	                  <h5 class="title">{{ get_phrase('Students') }}</h5>
+	                  <h5 class="title">{{ get_phrase('Học viên') }}</h5>
 	                  <a href="{{ route('admin.student') }}" class="ds_link ds_sutdent">
 	                    <svg
 	                      xmlns="http://www.w3.org/2000/svg"
@@ -92,7 +92,7 @@
 	                <div
 	                  class="dsHeader d-flex justify-content-between align-items-center"
 	                >
-	                  <h5 class="title">{{ get_phrase('Teacher') }}</h5>
+	                  <h5 class="title">{{ get_phrase('Giảng viên') }}</h5>
 	                  <a href="{{ route('admin.teacher') }}" class="ds_link ds_teacher">
 	                    <svg
 	                      xmlns="http://www.w3.org/2000/svg"
@@ -131,7 +131,30 @@
 	                <div
 	                  class="dsHeader d-flex justify-content-between align-items-center"
 	                >
-	                  <h5 class="title">{{ get_phrase('Parents') }}</h5>
+	                  <h5 class="title">{{ get_phrase('Lớp học') }}</h5>
+	                </div>
+	                <div
+	                  class="dsBody d-flex justify-content-between align-items-center"
+	                >
+	                  <div class="ds_item_details">
+	                    <h4 class="total_no">50</h4>
+	                    <p class="total_info">{{ get_phrase('Số lớp học đã tổ chức') }}</p>
+	                  </div>
+	                  <div class="ds_item_icon">
+	                    <img
+	                      src="{{ asset('public/assets/images/Staff_icon.png') }}"
+	                      alt=""
+	                    />
+	                  </div>
+	                </div>
+	              </div>
+	            </div>
+	            <div class="col-md-6">
+	              <div class="dashboard_ShortListItem">
+	                <div
+	                  class="dsHeader d-flex justify-content-between align-items-center"
+	                >
+	                  <h5 class="title">{{ get_phrase('Chi phí năm') }} 2024</h5>
 	                  <a href="{{ route('admin.parent') }}" class="ds_link ds_parent">
 	                    <svg
 	                      xmlns="http://www.w3.org/2000/svg"
@@ -153,45 +176,15 @@
 	                  class="dsBody d-flex justify-content-between align-items-center"
 	                >
 	                  <div class="ds_item_details">
-	                    <h4 class="total_no">{{ DB::table('users')->where('role_id', 6)->where('school_id', auth()->user()->school_id)->get()->count() }}</h4>
-	                    <p class="total_info">{{ get_phrase('Total Parent') }}</p>
+	                    <h4 class="">135.500.000đ</h4>
 	                  </div>
 	                  <div class="ds_item_icon">
-	                    <img
-	                      src="{{ asset('public/assets/images/Parents_icon.png') }}"
-	                      alt=""
-	                    />
+
 	                  </div>
 	                </div>
 	              </div>
 	            </div>
-	            <div class="col-md-6">
-	              <div class="dashboard_ShortListItem">
-	                <div
-	                  class="dsHeader d-flex justify-content-between align-items-center"
-	                >
-	                  <h5 class="title">{{ get_phrase('Staff') }}</h5>
-	                </div>
-	                <div
-	                  class="dsBody d-flex justify-content-between align-items-center"
-	                >
-	                  <div class="ds_item_details">
-	                  	@php $admin = DB::table('users')->where('role_id', 2)->where('school_id', auth()->user()->school_id)->get()->count() @endphp
-	                  	@php $teacher = DB::table('users')->where('role_id', 3)->where('school_id', auth()->user()->school_id)->get()->count() @endphp
-						@php $accountant = DB::table('users')->where('role_id', 4)->where('school_id', auth()->user()->school_id)->get()->count() @endphp
-						@php $librarian = DB::table('users')->where('role_id', 5)->where('school_id', auth()->user()->school_id)->get()->count() @endphp
-	                    <h4 class="total_no">{{ $admin + $teacher + $accountant + $librarian }}</h4>
-	                    <p class="total_info">{{ get_phrase('Total Staff') }}</p>
-	                  </div>
-	                  <div class="ds_item_icon">
-	                    <img
-	                      src="{{ asset('public/assets/images/Staff_icon.png') }}"
-	                      alt=""
-	                    />
-	                  </div>
-	                </div>
-	              </div>
-	            </div>
+
 	          </div>
 	        </div>
 	      </div>

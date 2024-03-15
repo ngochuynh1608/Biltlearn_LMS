@@ -42,6 +42,7 @@ use App\Models\CategoriesSubject;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 class AdminController extends Controller
 {
 
@@ -1322,6 +1323,40 @@ class AdminController extends Controller
         }
     }
 
+    /**
+     * Show enrol class list
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+
+    public function enrolClassList(Request $request, $id)
+    {
+        //$users_list = Enrollment::where('class_id', $id);
+
+        $users_list = Enrollment::get()->where('class_id', $id);
+        $class = Classes::where('id', $id)->first();
+
+        $search = '';
+        return view('admin.class.enrol_list', ['users_list' => $users_list, 'search' => $search , 'class' => $class]);
+    }
+
+    /**
+     *  Enrol add student form
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+
+    public function enrolAddStudent(Request $request, $id)
+    {
+        //$users_list = Enrollment::where('class_id', $id);
+
+        $users_list = Enrollment::get()->where('class_id', $id);
+        $class = Classes::where('id', $id)->first();
+
+        $search = '';
+        return view('admin.class.enrol_add_student');
+    }
+
 
     /**
      * Show the exam category list.
@@ -1914,7 +1949,7 @@ class AdminController extends Controller
             $class_id = $data['class_id'];
             $section_id = $data['section_id'];
             $exam_category_id = $data['exam_category_id'];
-            $subjects = Subject::where(['class_id' => $class_id, 'school_id' => auth()->user()->school_id])->get();
+            $subjects = Subject::where(['school_id' => auth()->user()->school_id])->get();
 
         } else {
             $filter_list = [];

@@ -88,7 +88,7 @@ use App\Models\User;
                       />
                     </svg>
                   </span>
-                  {{ get_phrase('Export') }}
+                  {{ get_phrase('Tải xuống') }}
                 </button>
                 <ul
                   class="dropdown-menu dropdown-menu-end eDropdown-menu-2"
@@ -97,7 +97,7 @@ use App\Models\User;
                       <a class="dropdown-item" id="pdf" href="javascript:;" onclick="Export()">{{ get_phrase('PDF') }}</a>
                   </li>
                   <li>
-                      <a class="dropdown-item" id="print" href="javascript:;" onclick="printableDiv('class_list')">{{ get_phrase('Print') }}</a>
+                      <a class="dropdown-item" id="print" href="javascript:;" onclick="printableDiv('class_list')">{{ get_phrase('In') }}</a>
                   </li>
                 </ul>
               </div>
@@ -153,6 +153,9 @@ use App\Models\User;
                                             <a class="dropdown-item" href="javascript:;" onclick="rightModal('{{ route('admin.edit.class', ['id' => $class_list->id]) }}', '{{ get_phrase('Chỉnh sửa') }}')">{{ get_phrase('Chỉnh sửa') }}</a>
                                           </li>
                                           <li>
+                                            <a class="dropdown-item" href="{{ route('admin.enrol.class', ['id' => $class_list->id]) }}">{{ get_phrase('Danh sách học viên') }}</a>
+                                          </li>
+                                          <li>
                                             <a class="dropdown-item" href="javascript:;" onclick="rightModal('{{ route('admin.edit.section', ['id' => $class_list->id]) }}', '{{ get_phrase('Thiết lập nội dung') }}')">{{ get_phrase('Thiết lập nội dung') }}</a>
                                           </li>
                                           <li>
@@ -183,7 +186,7 @@ use App\Models\User;
             <div class="empty_box center">
               <img class="mb-3" width="150px" src="{{ asset('public/assets/images/empty_box.png') }}" />
               <br>
-              <span class="">{{ get_phrase('No data found') }}</span>
+              <span class="">{{ get_phrase('Không có dữ liệu') }}</span>
             </div>
             @endif
         </div>

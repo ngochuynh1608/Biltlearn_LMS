@@ -16,7 +16,7 @@
           </ul>
         </div>
         <div class="export-btn-area">
-          <a href="#" class="export_btn" onclick="rightModal('{{ route('admin.take_attendance.open_modal') }}', '{{ get_phrase('Take Attendance') }}')">{{ get_phrase('Take Attendance') }}</a>
+          <a href="#" class="export_btn" onclick="rightModal('{{ route('admin.take_attendance.open_modal') }}', '{{ get_phrase('Điểm danh') }}')">{{ get_phrase('Take Attendance') }}</a>
         </div>
       </div>
     </div>
@@ -70,7 +70,7 @@
             </select>
           </div>
           <div class="att-filter-btn">
-            <button class="eBtn eBtn btn-secondary" type="submit" >{{ get_phrase('Filter') }}</button>
+            <button class="eBtn eBtn btn-secondary" type="submit" >{{ get_phrase('ọc') }}</button>
           </div>
         </div>
       </form>
@@ -78,7 +78,7 @@
         <div class="empty_box center">
           <img class="mb-3" width="150px" src="{{ asset('public/assets/images/empty_box.png') }}" />
           <br>
-          <span class="">{{ get_phrase('No data found') }}</span>
+          <span class="">{{ get_phrase('Không có dữ liệu') }}</span>
         </div>
       </div>
     </div>

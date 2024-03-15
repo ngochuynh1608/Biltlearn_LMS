@@ -266,6 +266,15 @@ Route::controller(AdminController::class)->middleware('admin','auth')->group(fun
     Route::get('admin/exam_category/delete/{id}', 'examCategoryDelete')->name('admin.exam_category.delete');
 
 
+    //Enrol Class Router
+    Route::get('admin/enrol_class/{id}', 'enrolClassList')->name('admin.enrol.class');
+    Route::get('admin/enrol_add/{id}', 'enrolAddStudent')->name('admin.enrol.add');
+    Route::post('admin/exam_category', 'examCategoryCreate')->name('admin.create.exam_category');
+    Route::get('admin/exam_category/{id}', 'editExamCategory')->name('admin.edit.exam_category');
+    Route::post('admin/exam_category/{id}', 'examCategoryUpdate')->name('admin.exam_category.update');
+    Route::get('admin/exam_category/delete/{id}', 'examCategoryDelete')->name('admin.exam_category.delete');
+
+
     //Exam routes
     Route::get('admin/offline_exam', 'offlineExamList')->name('admin.offline_exam');
     Route::get('admin/offline_exam/export/{id}', 'offlineExamExport')->name('admin.offline_exam.export');

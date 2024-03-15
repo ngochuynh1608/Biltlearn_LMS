@@ -2,14 +2,14 @@
     @csrf 
     <div class="form-row">
         <div class="fpb-7">
-            <label for="date_on_taking_attendance" class="eForm-label">{{ get_phrase('Date') }}<span class="required">*</span></label>
+            <label for="date_on_taking_attendance" class="eForm-label">{{ get_phrase('Chọn ngày') }}<span class="required">*</span></label>
             <input type="text" class="form-control eForm-control inputDate" id="date_on_taking_attendance" name="date" value="{{ date('m/d/Y') }}" />
         </div>
 
         <div class="fpb-7">
             <label for="class_id_on_taking_attendance" class="eForm-label">{{ get_phrase('Class') }}</label>
             <select name="class_id" id="class_id_on_taking_attendance" class="form-select eForm-select eChoice-multiple-with-remove" required onchange="classWiseSectionOnTakingAttendance(this.value)" required>
-                <option value="">{{ get_phrase('Select a class') }}</option>
+                <option value="">{{ get_phrase('Chọn lớp') }}</option>
                 @foreach($classes as $class)
                     <option value="{{ $class->id }}">{{ $class->name }}</option>
                 @endforeach
@@ -19,7 +19,7 @@
         <div class="fpb-7">
             <label for="section_id_on_taking_attendance" class="eForm-label">{{ get_phrase('Section') }}</label>
             <select name="section_id" id="section_id_on_taking_attendance" class="form-select eForm-select eChoice-multiple-with-remove" required >
-                <option value="">{{ get_phrase('Select section') }}</option>
+                <option value="">{{ get_phrase('Chọn phiên') }}</option>
             </select>
         </div>
 
@@ -28,11 +28,11 @@
 
         <div class='row py-1'>
             <div class="form-group col-md-12" id="showStudentDiv">
-                <a class="btn btn-block btn-secondary" onclick="getStudentList()" disabled>{{ get_phrase('Show student list') }}</a>
+                <a class="btn btn-block btn-secondary" onclick="getStudentList()" disabled>{{ get_phrase('Danh sách học viên') }}</a>
             </div>
         </div>
         <div class="form-group display-none-view col-md-12 mt-4" id = "updateAttendanceDiv">
-            <button class="btn w-100 btn-primary" type="submit">{{ get_phrase('Update attendance') }}</button>
+            <button class="btn w-100 btn-primary" type="submit">{{ get_phrase('Cập nhật') }}</button>
         </div>
 
     </div>
