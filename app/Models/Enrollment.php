@@ -15,7 +15,7 @@ class Enrollment extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'class_id', 'section_id', 'school_id', 'department_id', 'session_id'
+        'user_id', 'class_id', 'school_id', 'session_id', 'from_date' , 'to_date' , 'num_hour_training', 'role'
     ];
 
     

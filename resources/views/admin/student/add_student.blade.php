@@ -1,107 +1,127 @@
-<div class="eoff-form">
-    <form method="POST" enctype="multipart/form-data" class="d-block ajaxForm" action="{{ route('admin.student.create') }}">
+<div class="eForm-layouts">
+    <form method="POST" enctype="multipart/form-data" class="d-block ajaxForm" action="{{ route('admin.offline_admission.create') }}">
         @csrf 
-        <div class="form-row">
-            <div class="fpb-7">
-                <label for="name" class="eForm-label">{{ get_phrase('Tên đầy đủ') }}</label>
-                <input type="text" class="form-control eForm-control" id="name" name = "name" required>
-            </div>
 
-            <div class="fpb-7">
-                <label for="email" class="eForm-label">{{ get_phrase('Email') }}</label>
-                <input type="email" class="form-control eForm-control" id="email" name = "email" required>
+        <div class="row fmb-14 justify-content-between align-items-center">
+            <label for="code"
+                class="col-sm-2 col-eForm-label">{{ get_phrase('Mã nhân viên') }}</label>
+            <div class="col-sm-10 col-md-9 col-lg-10">
+                <input type="code" class="form-control eForm-control" id="code" name="code" required>
             </div>
+        </div>
 
-            <div class="fpb-7">
-                <label for="department_id" class="eForm-label">{{ get_phrase('Đơn vị') }}</label>
-                <select name="department_id" id = "department_id_on_routine_creation" class="form-select eForm-select eChoice-multiple-with-remove"  required>
-                    <option value="">{{ get_phrase('Select a class room') }}</option>
-                    <?php foreach($class_rooms as $class_room): ?>
-                        <option value="{{ $class_room['id'] }}">{{ $class_room['name'] }}</option>
+        <div class="row fmb-14 justify-content-between align-items-center">
+            <label for="name" class="col-sm-2 col-eForm-label">{{ get_phrase('Tên đầy đủ') }}</label>
+            <div class="col-sm-10 col-md-9 col-lg-10">
+                <input type="text" class="form-control eForm-control" id="name" name="name" required>
+            </div>
+        </div>
+
+        <div class="row fmb-14 justify-content-between align-items-center">
+            <label for="email"
+                class="col-sm-2 col-eForm-label">{{ get_phrase('Email') }}</label>
+            <div class="col-sm-10 col-md-9 col-lg-10">
+                <input type="email" class="form-control eForm-control" id="email" name="email" required>
+            </div>
+        </div>
+
+
+
+        <div class="row fmb-14 justify-content-between align-items-center">
+            <label for="workunit_id" class="col-sm-2 col-eForm-label">{{ get_phrase('Công ty') }}</label>
+            <div class="col-md-10">
+                <select name="workunit_id" id = "workunit_id_on_routine_creation" class="form-select eForm-select eChoice-multiple-with-remove"  required>
+                    <option value="">{{ get_phrase('Lựa chọn công ty') }}</option>
+                    <?php foreach($data['workunits'] as $workunit): ?>
+                        <option value="{{ $workunit['name'] }}">{{ $workunit['name'] }}</option>
                     <?php endforeach; ?>
                 </select>
             </div>
+        </div>
 
-            <div class="fpb-7">
-                <label for="phone" class="eForm-label">{{ get_phrase('Phone number') }}</label>
-                <input type="text" class="form-control eForm-control" id="phone" name = "phone">
+        <div class="row fmb-14 justify-content-between align-items-center">
+            <label for="khoi" class="col-sm-2 col-eForm-label">{{ get_phrase('Khối') }}</label>
+            <div class="col-sm-10 col-md-9 col-lg-10">
+                <input type="text" class="form-control eForm-control" id="khoi" name="khoi">
             </div>
+        </div>
 
-            <div class="fpb-7">
-                <label for="password" class="eForm-label">{{ get_phrase('Password') }}</label>
-                <input type="password" class="form-control eForm-control" id="password" name = "password">
-            </div>
-
-            <div class="fpb-7">
-                <label for="phone" class="eForm-label">{{ get_phrase('Address') }}</label>
-                <textarea class="form-control eForm-control" id="address" name = "address" rows="5" required></textarea>
-            </div>
-
-
-            <div class="fpb-7">
-                <label for="class_id" class="eForm-label">{{ get_phrase("Lớp học") }}</label>
-                <select name="class_id" id="class_id" class="form-select eForm-select eChoice-multiple-with-remove" onchange="classWiseSection(this.value)">
-                    <option value="">{{ get_phrase("Select a class") }}</option>
-                    @foreach($classes as $class)
-                        <option value="{{ $class->id }}">{{ $class->name }}</option>
-                    @endforeach
+        <div class="row fmb-14 justify-content-between align-items-center">
+            <label for="department_id" class="col-sm-2 col-eForm-label">{{ get_phrase('Bộ phận') }}</label>
+            <div class="col-md-10">
+                <select name="department_id" id = "department_id_on_routine_creation" class="form-select eForm-select eChoice-multiple-with-remove"  required>
+                    <option value="">{{ get_phrase('Lựa chọn phòng ban') }}</option>
+                    <?php foreach($data['departments'] as $department): ?>
+                        <option value="{{ $department['name'] }}">{{ $department['name'] }}</option>
+                    <?php endforeach; ?>
                 </select>
             </div>
+        </div>
 
-            <div class="fpb-7">
-                <label for="section_id"  class="eForm-label">{{ get_phrase("Nhóm học viên") }}</label>
-                <select name="section_id" id="section_id" class="form-select eForm-select eChoice-multiple-with-remove" >
-                    <option value="">{{ get_phrase("First select a class") }}</option>
-                </select>
+
+
+        <div class="row fmb-14 justify-content-between align-items-center">
+            <label for="title" class="col-sm-2 col-eForm-label">{{ get_phrase('Chức danh') }}</label>
+            <div class="col-sm-10 col-md-9 col-lg-10">
+                <input type="text" class="form-control eForm-control" id="title" name="title">
             </div>
+        </div>
 
-            <!--<div class="fpb-7">
-                <label for="birthdatepicker" class="eForm-label">{{ get_phrase('Birthday') }}<span class="required"></span></label>
-                <input type="text" class="form-control eForm-control" id="eInputDate" name="birthday" value="{{ date('m/d/Y') }}" />
-            </div>-->
-
-            <!--<div class="fpb-7">
-                <label for="gender" class="eForm-label">{{ get_phrase('Gender') }}</label>
-                <select name="gender" id="gender" class="form-select eForm-select eChoice-multiple-with-remove"  required>
-                    <option value="">{{ get_phrase('Select gender') }}</option>
-                    <option value="Male">{{ get_phrase('Male') }}</option>
-                    <option value="Female">{{ get_phrase('Female') }}</option>
-                    <option value="Others">{{ get_phrase('Others') }}</option>
-                </select>
-            </div>-->
-
-            <!--<div class="fpb-7">
-                <label for="blood_group" class="eForm-label">{{ get_phrase('Blood group') }}</label>
-                <select name="blood_group" id="blood_group" class="form-select eForm-select eChoice-multiple-with-remove">
-                    <option value="">{{ get_phrase('Select a blood group') }}</option>
-                    <option value="a+">{{ get_phrase('A+') }}</option>
-                    <option value="a-">{{ get_phrase('A-') }}</option>
-                    <option value="b+">{{ get_phrase('B+') }}</option>
-                    <option value="b-">{{ get_phrase('B-') }}</option>
-                    <option value="ab+">{{ get_phrase('AB+') }}</option>
-                    <option value="ab-">{{ get_phrase('AB-') }}</option>
-                    <option value="o+">{{ get_phrase('O+') }}</option>
-                    <option value="o-">{{ get_phrase('O-') }}</option>
-                </select>
-            </div>-->
-
-            <div class="fpb-7">
-              <label for="formFile" class="eForm-label"
-                >{{ get_phrase('Photo') }}</label
-              >
-              <input
-                class="form-control eForm-control-file"
-                id="photo" name="photo" accept="image/*"
-                type="file"
-              />
+        <div class="row fmb-14 justify-content-between align-items-center">
+            <label for="level_id" class="col-sm-2 col-eForm-label">{{ get_phrase('Level') }}</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control eForm-control" id="level" name="level">
             </div>
+        </div>
 
-            <div class="fpb-7 pt-2">
-                <button class="btn-form" type="submit">{{ get_phrase('Create') }}</button>
+
+        
+        <div class="row fmb-14 justify-content-between align-items-center">
+            <label for="password"
+                class="col-sm-2 col-eForm-label">{{ get_phrase('Mật khẩu') }}</label>
+            <div class="col-sm-10 col-md-9 col-lg-10">
+                <input type="password" class="form-control eForm-control" id="password" name="password">
+            </div>
+        </div>
+
+        <div class="row fmb-14 justify-content-between align-items-center">
+            <label for="birthdatepicker" class="col-sm-2 col-eForm-label">{{ get_phrase('Bắt đầu làm việc') }}<span class="required"></span></label>
+            <div class="col-md-10">
+                <input type="text" class="form-control eForm-control" id="eInputDate" name="eDefaultDateRange" value="{{ date('m/d/Y') }}" />
+            </div>
+        </div>
+
+        <div class="row fmb-14 justify-content-between align-items-center">
+            <label for="phone" class="col-sm-2 col-eForm-label">{{ get_phrase('Số điện thoại') }}</label>
+            <div class="col-md-10">
+                <input type="text" id="phone" name="phone" class="form-control eForm-control">
+            </div>
+        </div>
+
+        <div class="row fmb-14 justify-content-between align-items-center">
+            <label for="address" class="col-sm-2 col-eForm-label">{{ get_phrase('Địa chỉ') }}</label>
+            <div class="col-md-10">
+                <textarea class="form-control eForm-control" id="address" rows="4" name = "address"></textarea>
+            </div>
+        </div>
+
+
+
+        <div class="row fmb-14 justify-content-between align-items-center">
+            <label for="photo" class="col-sm-2 col-eForm-label">{{ get_phrase('Ảnh đại diện') }}</label>
+            <div class="col-md-10">
+                <input class="form-control eForm-control-file" type="file" id="photo" name="photo" accept="image/*">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-10 offset-sm-2">
+                <button type="submit" class="btn-form">{{ get_phrase('Thêm học viên') }}</button>
             </div>
         </div>
     </form>
 </div>
+
 
 <script type="text/javascript">
 
@@ -109,31 +129,6 @@
 
     $(document).ready(function () {
       $(".eChoice-multiple-with-remove").select2();
-    });
-
-    function classWiseSection(classId) {
-        let url = "{{ route('class_wise_sections', ['id' => ":classId"]) }}";
-        url = url.replace(":classId", classId);
-        $.ajax({
-            url: url,
-            success: function(response){
-                $('#section_id').html(response);
-            }
-        });
-    }
-
-    $(function () {
-      $('input[name="birthday"]').daterangepicker(
-        {
-          singleDatePicker: true,
-          showDropdowns: true,
-          minYear: 1901,
-          maxYear: parseInt(moment().format("YYYY"), 10),
-        },
-        function (start, end, label) {
-          var years = moment().diff(start, "years");
-        }
-      );
     });
 
 </script>

@@ -42,9 +42,9 @@ class CommonController extends Controller
 
         $role = Role::where('role_id', $student->role_id)->first();
 
-        $class_details = Classes::find($enrol_data->class_id);
+        //$class_details = Classes::find($enrol_data->class_id);
 
-        $section_details = Section::find($enrol_data->section_id);
+        //$section_details = Section::find($enrol_data->section_id);
 
         $active_session = get_school_settings($student->school_id)->value('running_session');
 
@@ -62,8 +62,6 @@ class CommonController extends Controller
         $enrol_data['workunit'] = $student->workunit;
 
         $enrol_data['role'] = $role->name;
-
-        $enrol_data['address'] = $info->address;
         $enrol_data['phone'] = $info->phone;
         //$enrol_data['birthday'] = $info->birthday;
         //$enrol_data['gender'] = $info->gender;
@@ -73,10 +71,10 @@ class CommonController extends Controller
         $enrol_data['school_name'] = $school_name;
         $enrol_data['running_session'] = $active_session;
 
-        $enrol_data['class_name'] = $class_details->name;
-        $enrol_data['class_id'] = $class_details->id;
-        $enrol_data['section_name'] = $section_details->name;
-        $enrol_data['section_id'] = $section_details->id;
+        //$enrol_data['class_name'] = $class_details->name;
+        //$enrol_data['class_id'] = $class_details->id;
+        //$enrol_data['section_name'] = $section_details->name;
+        //$enrol_data['section_id'] = $section_details->id;
 
         return $enrol_data;
     }

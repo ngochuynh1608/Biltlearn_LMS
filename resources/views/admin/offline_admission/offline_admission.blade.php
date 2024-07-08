@@ -40,15 +40,15 @@
               aria-controls="basicInfo"
               aria-selected="true"
             >
-              Single student admission
+              Tạo học viên
               <span></span>
           </button>
       	</a>
       </li>
       <li class="nav-item" role="presentation">
-        <a href="{{ route('admin.offline_admission.single', ['type' => 'bulk']) }}">
-      		<button
-              class="nav-link {{ $aria_expand == 'bulk' ? 'active':'' }}"
+        <a href="{{ route('admin.offline_admission.single', ['type' => 'list']) }}">
+          <button
+              class="nav-link {{ $aria_expand == 'list' ? 'active':'' }}"
               id="attendance-tab"
               data-bs-toggle="tab"
               data-bs-target="#attendance"
@@ -57,10 +57,10 @@
               aria-controls="attendance"
               aria-selected="false"
             >
-              {{ get_phrase('Bulk student admission') }}
+              {{ get_phrase('Nhập danh sách học viên') }}
               <span></span>
           </button>
-      	</a>
+        </a>
       </li>
       <li class="nav-item" role="presentation">
       	<a href="{{ route('admin.offline_admission.single', ['type' => 'excel']) }}">
@@ -74,7 +74,7 @@
               aria-controls="attendance"
               aria-selected="false"
             >
-              {{ get_phrase('Excel upload') }}
+              {{ get_phrase('Nhập dữ liệu đào tạo') }}
               <span></span>
           </button>
       	</a>
@@ -90,8 +90,8 @@
       >
         @if($aria_expand == 'single')
 					@include('admin.offline_admission.single_student_admission')
-				@elseif($aria_expand == 'bulk')
-					@include('admin.offline_admission.bulk_student_admission')
+        @elseif($aria_expand == 'list')
+          @include('admin.offline_admission.student_data')
 				@else
 					@include('admin.offline_admission.excel_student_admission')
 				@endif

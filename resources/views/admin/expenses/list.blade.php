@@ -35,7 +35,7 @@ use App\Models\ExpenseCategory;
                           data-bs-toggle="dropdown"
                           aria-expanded="false"
                         >
-                          {{ get_phrase('Actions') }}
+                          {{ get_phrase('Hành động') }}
                         </button>
                         <ul
                           class="dropdown-menu dropdown-menu-end eDropdown-menu-2 eDropdown-table-action"

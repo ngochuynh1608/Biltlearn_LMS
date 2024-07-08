@@ -11,15 +11,15 @@
           class="d-flex justify-content-between align-items-center flex-wrap gr-15"
         >
           <div class="d-flex flex-column">
-            <h4>{{ get_phrase('Teachers') }}</h4>
+            <h4>{{ get_phrase('Giảng viên') }}</h4>
             <ul class="d-flex align-items-center eBreadcrumb-2">
-              <li><a href="#">{{ get_phrase('Home') }}</a></li>
-              <li><a href="#">{{ get_phrase('Users') }}</a></li>
-              <li><a href="#">{{ get_phrase('Teacher') }}</a></li>
+              <li><a href="#">{{ get_phrase('Trang chủ') }}</a></li>
+              <li><a href="#">{{ get_phrase('Người dùng') }}</a></li>
+              <li><a href="#">{{ get_phrase('Giảng viên') }}</a></li>
             </ul>
           </div>
           <div class="export-btn-area">
-            <a href="javascript:;" class="export_btn" onclick="rightModal('{{ route('admin.teacher.open_modal') }}', '{{ get_phrase('Create Teacher') }}')">{{ get_phrase('Create Teacher') }}</a>
+            <a href="javascript:;" class="export_btn" onclick="rightModal('{{ route('admin.teacher.open_modal') }}', '{{ get_phrase('Tạo giảng viên') }}')">{{ get_phrase('Tạo giảng viên') }}</a>
           </div>
         </div>
       </div>
@@ -103,14 +103,14 @@
             @if(count($teachers) > 0)
             <!-- Table -->
             <div class="table-responsive">
-              <table class="table eTable eTable-2">
+              <table class="table eTable ">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
-                    <th scope="col">{{ get_phrase('Name') }}</th>
+                    <th scope="col">{{ get_phrase('Họ tên') }}</th>
                     <th scope="col">{{ get_phrase('Email') }}</th>
-                    <th scope="col">{{ get_phrase('User Info') }}</th>
-                    <th scope="col">{{ get_phrase('Options') }}</th>
+                    <th scope="col">{{ get_phrase('Thông tin') }}</th>
+                    <th scope="col">{{ get_phrase('Hành động') }}</th>
                 </thead>
                 <tbody>
                     @foreach($teachers as $key => $teacher)
@@ -152,9 +152,6 @@
                         <td>
                           <div class="dAdmin_info_name min-w-250px">
                             <p><span>{{ get_phrase('Phone') }}:</span> {{ $info->phone }}</p>
-                            <p>
-                              <span>{{ get_phrase('Address') }}:</span> {{ $info->address }}
-                            </p>
                           </div>
                         </td>
                         <td>
@@ -165,16 +162,16 @@
                               data-bs-toggle="dropdown"
                               aria-expanded="false"
                             >
-                              {{ get_phrase('Actions') }}
+                              {{ get_phrase('Hành động') }}
                             </button>
                             <ul
                               class="dropdown-menu dropdown-menu-end eDropdown-menu-2 eDropdown-table-action"
                             >
                               <li>
-                                <a class="dropdown-item" href="javascript:;" onclick="rightModal('{{ route('admin.teacher_edit_modal', ['id' => $teacher->id]) }}', '{{ get_phrase('Edit Admin') }}')">{{ get_phrase('Edit') }}</a>
+                                <a class="dropdown-item" href="javascript:;" onclick="rightModal('{{ route('admin.teacher_edit_modal', ['id' => $teacher->id]) }}', '{{ get_phrase('Edit Admin') }}')">{{ get_phrase('Chỉnh sửa') }}</a>
                               </li>
                               <li>
-                                <a class="dropdown-item" href="javascript:;" onclick="confirmModal('{{ route('admin.teacher.delete', ['id' => $teacher->id]) }}', 'undefined');">{{ get_phrase('Delete') }}</a>
+                                <a class="dropdown-item" href="javascript:;" onclick="confirmModal('{{ route('admin.teacher.delete', ['id' => $teacher->id]) }}', 'undefined');">{{ get_phrase('Xóa') }}</a>
                               </li>
                             </ul>
                           </div>
@@ -247,9 +244,6 @@
             <td>
               <div class="dAdmin_info_name min-w-250px">
                 <p><span>{{ get_phrase('Phone') }}:</span> {{ $info->phone }}</p>
-                <p>
-                  <span>{{ get_phrase('Address') }}:</span> {{ $info->address }}
-                </p>
               </div>
             </td>
           </tr>

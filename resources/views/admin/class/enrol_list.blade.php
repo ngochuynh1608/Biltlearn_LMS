@@ -162,15 +162,24 @@ use App\Models\Section;
             @if(count($users_list) > 0)
             <!-- Table -->
             <div class="table-responsive">
-              <table class="table eTable eTable-2">
+              <table class="table eTable" style="display: block;
+                max-width: -moz-fit-content;
+                max-width: fit-content;
+                margin: 0 auto;
+                overflow-x: auto;
+                white-space: nowrap;">
                 <thead style="font-weight: 900;">
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">{{ get_phrase('Họ và tên') }}</th>
-                    <th scope="col">{{ get_phrase('Email') }}</th>
                     <th scope="col">{{ get_phrase('Thông tin đơn vị') }}</th>
                     <th scope="col">{{ get_phrase('Ngày ghi danh') }}</th>
-                    <th scope="col">{{ get_phrase('Cam kết bồi hoàn') }}</th>
+                    <th scope="col">{{ get_phrase('Thời gian bắt đầu') }}</th>
+                    <th scope="col">{{ get_phrase('Thời gian kết thúc') }}</th>
+                    <th scope="col">{{ get_phrase('Số giờ đào tạo') }}</th>
+                    <th scope="col">{{ get_phrase('Điểm số') }}</th>
+                    <th scope="col">{{ get_phrase('Trạng thái') }}</th>
+                    <th scope="col">{{ get_phrase('Bồi hoàn') }}</th>
                     <th scope="col">{{ get_phrase('Hành động') }}</th>
                 </thead>
                 <tbody>
@@ -179,14 +188,13 @@ use App\Models\Section;
                     <?php 
                         $student = DB::table('users')->where('id', $user->user_id)->first();
 
-                        $user_image = get_user_image($user->id);
-                        $info = json_decode($user->user_information);
+                        $user_image = get_user_image($student->id);
+                        $info = json_decode($student->user_information);
 
-                        $student_details = (new CommonController)->get_student_academic_info($user->id);
                     ?>
                       <tr>
                         <th scope="row">
-                          
+                            <input type="checkbox" name="check_users[]">
                         </th>
                         <td>
                           <div
@@ -202,14 +210,9 @@ use App\Models\Section;
                             </div>
                             <div class="dAdmin_profile_name dAdmin_info_name">
                               <h4>{{ $student->name }}</h4>
-                              <span>{{ get_phrase('Mã nhân viên') }}:</span> {{ $user->code }}
+                              <span>{{ get_phrase('Mã nhân viên') }}:</span> {{ $student->code }}
                               <br>
                             </div>
-                          </div>
-                        </td>
-                        <td>
-                          <div class="dAdmin_info_name">
-                            <p>{{ $student->email }}</p>
                           </div>
                         </td>
                         <td>
@@ -223,12 +226,40 @@ use App\Models\Section;
                         </td>
                         <td>
                           <div class="dAdmin_info_name">
-                            <p>{{ $user->created_at }}</p>
+                            <p>{{ $student->created_at }}</p>
                           </div>
                         </td>
                         <td>
                           <div class="dAdmin_info_name">
-
+                            <p>{{ date('d/m/Y',$user->from_date) }}</p>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="dAdmin_info_name">
+                            <p>{{ date('d/m/Y',$user->to_date) }}</p>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="dAdmin_info_name">
+                            <p>{{ $user->num_hour_training }}</p>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="dAdmin_info_name">
+                            <input type="text" name="score_user" value="{{ $user->score }}">
+                            <a>
+                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18.308 0l-16.87 16.873-1.436 7.127 7.125-1.437 16.872-16.875-5.691-5.688zm-15.751 21.444l.723-3.585 12.239-12.241 2.861 2.862-12.239 12.241-3.584.723zm17.237-14.378l-2.861-2.862 1.377-1.377 2.861 2.861-1.377 1.378z"/></svg>
+                            </a>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="dAdmin_info_name">
+                            <p>Đã tham gia</p>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="dAdmin_info_name">
+                            <p>Không bồi hoàn</p>
                           </div>
                         </td>
                         <td>
@@ -245,7 +276,7 @@ use App\Models\Section;
                               class="dropdown-menu dropdown-menu-end eDropdown-menu-2 eDropdown-table-action"
                             >
                               <li>
-                                <a class="dropdown-item" href="javascript:;" onclick="largeModal('{{ route('admin.student.id_card', ['id' => $student->id]) }}', '{{ get_phrase('Generate id card') }}')">{{ get_phrase('Xóa ghi danh') }}</a>
+                                <a class="dropdown-item" href="javascript:;" onclick="largeModal('{{ route('admin.student.id_card', ['id' => $user->id]) }}', '{{ get_phrase('Generate id card') }}')">{{ get_phrase('Xóa ghi danh') }}</a>
                               </li>
                             </ul>
                           </div>
@@ -285,7 +316,7 @@ use App\Models\Section;
 
           $student = DB::table('users')->where('id', $user->user_id)->first();
 
-          $user_image = get_user_image($user->id);
+          $user_image = get_user_image($user->user_id);
           $info = json_decode($user->user_information);
 
           $student_details = (new CommonController)->get_student_academic_info($student->id);

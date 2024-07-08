@@ -251,11 +251,13 @@ Route::controller(AdminController::class)->middleware('admin','auth')->group(fun
     Route::post('admin/offline_admission', 'offlineAdmissionCreate')->name('admin.offline_admission.create');
     Route::post('admin/offline_admission/bulk', 'offlineAdmissionBulkCreate')->name('admin.offline_admission.bulk_create');
     Route::post('admin/offline_admission/excel', 'offlineAdmissionExcelCreate')->name('admin.offline_admission.excel_create');
+    Route::post('admin/offline_admission/excel_update_data', 'offlineAdmissionExcelUpdateData')->name('admin.offline_admission.excel_update_data');
     Route::post('admin/offline_admission/excelstep1', 'offlineAdmissionExcelparseImport')->name('admin.offline_admission.excel_create_step1');
     Route::get('admin/offline_admission_preview', function () {
         return view('admin.offline_admission.csv_preview');
     })->name('admin.offline_admission.preview');
-
+    Route::post('admin/offline_admission/import_excel_create', 'offlineAdmissionExcelCreate2')->name('admin.offline_admission.create_excel');
+    Route::post('admin/offline_admission/enrol_student', 'offlineAdmissionEnrolStudent')->name('admin.offline_admission.enrol_student');
 
     //Exam category routes
     Route::get('admin/exam_category', 'examCategoryList')->name('admin.exam_category');

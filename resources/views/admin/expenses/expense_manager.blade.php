@@ -8,7 +8,7 @@
               class="d-flex justify-content-between align-items-center flex-wrap gr-15"
             >
                 <div class="d-flex flex-column">
-                    <h4>{{ get_phrase('Expense') }}</h4>
+                    <h4>{{ get_phrase('Chi phí') }}</h4>
                     <ul class="d-flex align-items-center eBreadcrumb-2">
                         <li><a href="#">{{ get_phrase('Trang chủ') }}</a></li>
                         <li><a href="#">{{ get_phrase('Tài chính') }}</a></li>
@@ -51,7 +51,7 @@
 
                             <div class="col-xl-4 mb-3">
                                 <select class="form-select eForm-select eChoice-multiple-with-remove" name="expense_category_id" id="expense_category_id">
-                                    <option value="all">{{ get_phrase('Select expense category') }}</option>
+                                    <option value="all">{{ get_phrase('Chọn danh mục') }}</option>
                                     @foreach ($expense_categories as $expense_category)
                                         <option value="{{ $expense_category->id }}">{{ $expense_category->name }}</option>
                                     @endforeach

@@ -3,6 +3,7 @@
 use App\Models\Section;
 use App\Models\Subject;
 use App\Models\User;
+use App\Models\WorkUnit;
 ?>
 
 @extends('admin.navigation')
@@ -57,7 +58,7 @@ use App\Models\User;
                     id="search"
                     name="search"
                     value="{{ $search }}"
-                    placeholder="Search user"
+                    placeholder="Nhập mã lớp học"
                     class="form-control"
                   />
                 </div>
@@ -105,13 +106,21 @@ use App\Models\User;
             </div>
             @if(count($class_lists) > 0)
             <div class="table-responsive tScrollFix pb-2">
-                  <table class="table eTable">
+                  <table class="table eTable" style="display: block;
+                max-width: -moz-fit-content;
+                max-width: fit-content;
+                margin: 0 auto;
+                overflow-x: auto;
+                white-space: nowrap;">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">{{ get_phrase('Mã lớp') }}</th>
                             <th scope="col">{{ get_phrase('Tên lớp') }}</th>
                             <th scope="col">{{ get_phrase('Khóa học') }}</th>
+                            <th scope="col">{{ get_phrase('Đối tượng') }}</th>
+                            <th scope="col">{{ get_phrase('Chi phí thực hiện') }}</th>
+                            <th scope="col">{{ get_phrase('Số học viên') }}</th>
                             <th scope="col">{{ get_phrase('Giảng viên') }}</th>
                             <th scope="col" class="text-end">{{ get_phrase('Hành động') }}</th>
                         </tr>
@@ -127,6 +136,16 @@ use App\Models\User;
                                     @foreach($subjects as $subject)
                                             {{ $subject->name }}
                                     @endforeach
+                                </td>
+                                <td>
+                                    <?php $work_units = WorkUnit::where(['id' => $class_list['work_unit_id']])->get(); ?>
+                                    @foreach($work_units as $work_unit)
+                                            {{ $work_unit->name }}
+                                    @endforeach
+                                </td>
+                                <td>{{ school_currency(get_expenses_class($class_list->id)) }}</td>
+                                <td>
+                                  <a href="{{ route('admin.enrol.class', ['id' => $class_list->id]) }}">{{ count_enrollment_class($class_list->id) }}</a>
                                 </td>
                                 <td>
                                     <ul>

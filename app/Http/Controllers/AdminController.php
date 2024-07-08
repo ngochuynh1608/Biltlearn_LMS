@@ -385,11 +385,7 @@ class AdminController extends Controller
             }
         }
         $info = array(
-            'gender' => $data['gender'],
-            'blood_group' => $data['blood_group'],
-            'birthday' => strtotime($data['birthday']),
             'phone' => $data['phone'],
-            'address' => $data['address'],
             'photo' => $photo
         );
 
@@ -398,8 +394,8 @@ class AdminController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'user_information' => $data['user_information'],
-            'department_id' => $data['department_id'],
-            'designation' => $data['designation'],
+            'department' => $data['department_id'],
+            'title' => $data['title'],
         ]);
         return redirect()->back()->with('message','You have successfully update teacher.');
     }
@@ -842,7 +838,7 @@ class AdminController extends Controller
         $section_id = $request['section_id'] ?? "";
 
         $users = User::where(function ($query) use($search) {
-            $query->where('users.name', 'LIKE', "%{$search}%")
+            $query->where('users.code', 'LIKE', "%{$search}%")
                 ->orWhere('users.email', 'LIKE', "%{$search}%");
         });
 
@@ -857,10 +853,10 @@ class AdminController extends Controller
             if($class_id == 'all' || $class_id != ""){
                 $users->where('class_id', $class_id);
             }
-            $students = $users->join('enrollments', 'users.id', '=', 'enrollments.user_id')->paginate(10);
+            $students = $users->join('enrollments', 'users.id', '=', 'enrollments.user_id')->paginate(100);
         }
         else{
-            $students = $users->paginate(10);
+            $students = $users->paginate(100);
         }
 
         $classes = Classes::get()->where('school_id', auth()->user()->school_id);
@@ -870,8 +866,11 @@ class AdminController extends Controller
 
     public function createStudentModal()
     {
-        $classes = Classes::get()->where('school_id', auth()->user()->school_id);
-        return view('admin.student.add_student', ['classes' => $classes]);
+        $data['parents'] = User::where(['role_id' => 6,'school_id' => 1])->get();
+        $data['workunits'] = Workunit::get()->where('school_id', auth()->user()->school_id);
+        $data['departments'] = Department::get()->where('school_id', auth()->user()->school_id);
+        $data['classes'] = Classes::get()->where('school_id', auth()->user()->school_id);
+        return view('admin.student.add_student', ['data' => $data]);
     }
 
     public function studentCreate(Request $request)
@@ -920,7 +919,6 @@ class AdminController extends Controller
     {
         $user = User::find($id);
         $student_details = (new CommonController)->get_student_details_by_id($id);
-        $classes = Classes::get()->where('school_id', auth()->user()->school_id);
         $departments = Department::get()->where('school_id', auth()->user()->school_id);
         $workunits = Workunit::get()->where('school_id', auth()->user()->school_id);
         return view('admin.student.edit_student', ['user' => $user, 'student_details' => $student_details, 'departments' => $departments ,'workunits' => $workunits]);
@@ -948,7 +946,6 @@ class AdminController extends Controller
         }
         $info = array(
             'phone' => $data['phone'],
-            'address' => $data['address'],
             'photo' => $photo
         );
         $data['user_information'] = json_encode($info);
@@ -1129,7 +1126,6 @@ class AdminController extends Controller
                 'role_id' => '7',
                 'school_id' => auth()->user()->school_id,
                 'workstartdate' => strtotime($data['eDefaultDateRange']),
-                'commitnent' => $data['commitnent'],
                 'user_information' => $data['user_information'],
             ]);
             return redirect()->back()->with('message','Thêm học viên thành công.');
@@ -1208,47 +1204,99 @@ class AdminController extends Controller
         }
     }
 
+    public function offlineAdmissionEnrolStudent(Request $request)
+    {
+        $data = $request->all();
+
+        $duplication_counter = 0;
+        $class_id = $data['class_id'];
+
+
+        $ids = $data['ids'];
+
+        $string_ids = preg_replace('/\s+/', ',', $ids);
+
+        $students = explode(',', $string_ids);
+
+        $active_session = get_school_settings(auth()->user()->school_id)->value('running_session');
+        $class = Classes::where('id', $class_id)->first();
+
+
+        foreach($students as $key => $user_code){
+
+                $user = User::where('code', $user_code)->first();
+
+
+                $duplicate_user_check = Enrollment::get()->where(['user_id', $user->id, 'class_id' => $class_id]);
+
+                if(count($duplicate_user_check) == 0){
+                    Enrollment::create([
+                        'user_id' => $user->id,
+                        'class_id' => $class_id,
+                        'school_id' => auth()->user()->school_id,
+                        'session_id' => $active_session,
+                        'from_date' => $class->start_date,
+                        'to_date' => $class->end_date,
+                        'num_hour_training' => $class->time_hours,
+                        'role' => 1,
+                    ]);
+
+                    $duplication_counter = $duplication_counter + 1;
+                }
+
+        }
+
+        return redirect()->back()->with('message','Đã thêm danh sách học viên vào khóa học');
+    }
+
     public function offlineAdmissionExcelparseImport(Request $request)
     {
         $data = $request->all();
 
         $file = $data['csv_file'];
 
+
+
         if ($file) {
             $filename = $file->getClientOriginalName();
+
+
             $extension = $file->getClientOriginalExtension(); //Get extension of uploaded file
-           
+            $newname = str_replace(' ', '', $filename);
             // Upload file
-            $file->move(public_path('assets/csv_file/'), $filename);
+            $file->move(public_path('assets/csv_file/'), $newname);
 
             // In case the uploaded file path is to be stored in the database
-            $filepath = asset('public/assets/csv_file/'.$filename);
+            $filepath = asset('public/assets/csv_file/'.$newname);
         }
-        //$data_csv = array_map('str_getcsv', file($filepath));
+        $data_csv = array_map('str_getcsv', file($filepath));
 
         if (($handle = fopen($filepath, 'r')) !== FALSE) { // Check the resource is valid
             $all_data = fgetcsv($handle, 1000, ",");
-
-            print_r($all_data);
-            exit;
         }
 
         $csv_data_file = array([
             'csv_filename' => $file->getClientOriginalName(),
-            'csv_header' => $file->has('header'),
+            //'csv_header' => $file->has('header'),
             'csv_data' => json_encode($data)
         ]);
-    
+        $table_users = array(
+            'code' => 'Mã nhân viên',
+            'name' => 'Họ tên',
+            'email' => 'Email',
+            'workunit_id' => 'Dơn vị',
+            'department_id' => 'Phòng ban',
+            'title' => 'Chức vụ',
+            'workstartdate' => 'Ngày bắt đầu làm việc',
+
+        );
         $csv_data = array_slice($data_csv, 0, 2);
-        return view('admin.offline_admission.import_fields', compact('csv_data', 'csv_data_file'));
+        return view('admin.offline_admission.import_fields', compact('csv_data', 'csv_data_file','table_users'));
     }
 
     public function offlineAdmissionExcelCreate(Request $request)
     {
         $data = $request->all();
-
-        $class_id = $data['class_id'];
-        $section_id = $data['section_id'];
         $school_id = auth()->user()->school_id;
         $session_id = get_school_settings(auth()->user()->school_id)->value('running_session');
 
@@ -1256,56 +1304,76 @@ class AdminController extends Controller
         if ($file) {
             $filename = $file->getClientOriginalName();
             $extension = $file->getClientOriginalExtension(); //Get extension of uploaded file
-           
+            $newname = str_replace(' ', '', $filename);
             // Upload file
-            $file->move(public_path('assets/csv_file/'), $filename);
+            $file->move(public_path('assets/csv_file/'), $newname);
 
             // In case the uploaded file path is to be stored in the database
-            $filepath = asset('public/assets/csv_file/'.$filename);
+            $filepath = asset('public/assets/csv_file/'.$newname);
         }
 
         if (($handle = fopen($filepath, 'r')) !== FALSE) { // Check the resource is valid
             $count = 0;
             $duplication_counter = 0;
 
-            while (($all_data = fgetcsv($handle, 1000, ",")) !== FALSE) { // Check opening the file is OK!
+            while (($all_data = fgetcsv($handle, 5000, ",")) !== FALSE) { // Check opening the file is OK!
                 if($count > 0){
 
                     // check email duplication
-                    $duplicate_user_check = User::get()->where('email', $all_data[1]);
+                    $duplicate_user_check = User::get()->where('code', $all_data[0]);
 
                     if(count($duplicate_user_check) == 0){
-
-                        $info = array(
-                            'phone' => $all_data[4],
-                            'address' => $all_data[6],
-                            'photo' => ''
-                        );
-                        $data['user_information'] = json_encode($info);
 
                         $user = User::create([
                             'code' => $all_data[0],
                             'name' => $all_data[1],
                             'email' => $all_data[2],
-                            'password' => Hash::make($all_data[3]),
-                            'department_id' => $all_data[5],
-                            'title' => $all_data[6],
+                            'company' => $all_data[3],
+                            'workunit' => $all_data[4],
+                            'department' => $all_data[5],
+                            'title' => $all_data[7],
+                            'level' => $all_data[7],
+                            'workstartdate' => date($all_data[8]),
                             'role_id' => '7',
+                            'password' => '123456',
                             'school_id' => $school_id,
-                            'user_information' => $data['user_information'],
+                        ]);
+                    }
+                    else{
+
+                        $user = User::where('code', $all_data[0])->update([
+                            'code' => $all_data[0],
+                            'name' => $all_data[1],
+                            'email' => $all_data[2],
+                            'company' => $all_data[3],
+                            'workunit' => $all_data[4],
+                            'department' => $all_data[5],
+                            'title' => $all_data[7],
+                            'level' => $all_data[7],
+                            'workstartdate' => date($all_data[8]),
+                            'role_id' => '7',
+                            'password' => '123456',
+                            'school_id' => $school_id,
                         ]);
 
+                        $user = User::where('code',$all_data[0])->first();
 
-                        Enrollment::create([
-                            'user_id' => $user->id,
-                            'class_id' => $class_id,
-                            'section_id' => $section_id,
-                            'school_id' => $school_id,
-                            'session_id' => $session_id,
-                        ]);
-
-                    }else{
                         $duplication_counter++;
+
+                    }
+                    if(!empty($class_id)){
+
+                        // Check duplicate enrollment
+
+                        $duplicate_user_enrollment_check = Enrollment::where(['user_id' => $user->id , 'class_id' => $class_id])->get();
+                        if(count($duplicate_user_enrollment_check) == 0 ){
+                            Enrollment::create([
+                                'user_id' => $user->id,
+                                'class_id' => $class_id,
+                                'school_id' => $school_id,
+                                'session_id' => $session_id,
+                            ]);
+                        }
                     }
                 }
                 $count++;
@@ -1315,11 +1383,104 @@ class AdminController extends Controller
 
         if ($duplication_counter > 0) {
 
-            return redirect()->back()->with('warning','Some of the emails have been taken.');
+            return redirect()->back()->with('message','Cập nhật danh sách thành công.');
 
         } else {
 
-            return redirect()->back()->with('message','Students added successfully');
+            return redirect()->back()->with('message','Thêm học viên thành công');
+        }
+    }
+
+    public function offlineAdmissionExcelUpdateData(Request $request)
+    {
+        $data = $request->all();
+        $school_id = auth()->user()->school_id;
+        $session_id = get_school_settings(auth()->user()->school_id)->value('running_session');
+
+        $file = $data['csv_file'];
+        if ($file) {
+            $filename = $file->getClientOriginalName();
+            $extension = $file->getClientOriginalExtension(); //Get extension of uploaded file
+            $newname = str_replace(' ', '', $filename);
+            // Upload file
+            $file->move(public_path('assets/csv_file/'), $newname);
+
+            // In case the uploaded file path is to be stored in the database
+            $filepath = asset('public/assets/csv_file/'.$newname);
+        }
+        $classes = Classes::get()->where('school_id', auth()->user()->school_id)->toArray();
+
+
+        if (($handle = fopen($filepath, 'r')) !== FALSE) { // Check the resource is valid
+            $count = 0;
+            $duplication_counter = 0;
+
+            while (($all_data = fgetcsv($handle, 5000, ",")) !== FALSE) { // Check opening the file is OK!
+                if($count > 0){
+
+                    // check user
+                    $user_check = User::where('code', $all_data[0])->first();
+
+                    if($user_check){
+
+
+                        $user = $user_check->toArray();
+
+                        $found_key = array_search($all_data[2], array_column($classes, 'code'));
+
+                        $class = null;
+
+                        if($found_key != null ){
+                            $class = $classes[$found_key];
+                        }
+                        if(!empty($class)){
+
+                            $user_enrollment_check = Enrollment::where(['user_id' => $user['id'] , 'class_id' => $class['id']])->get();
+
+                            if(count($user_enrollment_check) == 0 ){
+                                Enrollment::create([
+                                    'user_id' => $user['id'],
+                                    'class_id' => $class['id'],
+                                    'school_id' => auth()->user()->school_id,
+                                    'session_id' => $session_id,
+                                    'from_date' => strtotime($all_data[3] .' '. $all_data[5]),
+                                    'to_date' => strtotime($all_data[4] .' '. $all_data[6]),
+                                    'num_hour_training' => $all_data[10],
+                                    'role' => $all_data[8],
+                                    'score' => $all_data[11],
+                                    'cost' => $all_data[12],
+                                ]);
+
+                                $duplication_counter++;
+                            }else{
+                                Enrollment::where(['user_id' => $user['id'] , 'class_id' => $class['id']])->update([
+                                    'school_id' => auth()->user()->school_id,
+                                    'session_id' => $session_id,
+                                    'from_date' => strtotime($all_data[3] .' '. $all_data[5]),
+                                    'to_date' => strtotime($all_data[4] .' '. $all_data[6]),
+                                    'num_hour_training' => $all_data[10],
+                                    'role' => $all_data[8],
+                                    'score' => $all_data[11],
+                                    'cost' => $all_data[12],
+                                ]);
+                                $duplication_counter++;
+                            }
+
+                        }
+                    }
+                }
+                $count++;
+            }
+            fclose($handle);
+        }
+
+        if ($duplication_counter > 0) {
+
+            return redirect()->back()->with('message','Cập nhật thành công '.$duplication_counter.' trường dữ liệu đào tạo .');
+
+        } else {
+
+            return redirect()->back()->with('message','Thêm học viên thành công');
         }
     }
 
@@ -1331,9 +1492,9 @@ class AdminController extends Controller
 
     public function enrolClassList(Request $request, $id)
     {
-        //$users_list = Enrollment::where('class_id', $id);
 
         $users_list = Enrollment::get()->where('class_id', $id);
+
         $class = Classes::where('id', $id)->first();
 
         $search = '';
@@ -1348,13 +1509,10 @@ class AdminController extends Controller
 
     public function enrolAddStudent(Request $request, $id)
     {
-        //$users_list = Enrollment::where('class_id', $id);
-
-        $users_list = Enrollment::get()->where('class_id', $id);
         $class = Classes::where('id', $id)->first();
 
         $search = '';
-        return view('admin.class.enrol_add_student');
+        return view('admin.class.enrol_add_student', ['class' => $class]);
     }
 
 
@@ -2492,7 +2650,7 @@ class AdminController extends Controller
         if($search != "") {
 
             $class_lists = Classes::where(function ($query) use($search) {
-                    $query->where('name', 'LIKE', "%{$search}%")
+                    $query->where('code', 'LIKE', "%{$search}%")
                         ->where('school_id', auth()->user()->school_id);
                 })->paginate(10);
 
@@ -2508,8 +2666,8 @@ class AdminController extends Controller
         $subjects = Subject::get()->where('school_id', auth()->user()->school_id);
         $teachers = User::get()->where('school_id', auth()->user()->school_id)->where('role_id', 3);
         $class_rooms = ClassRoom::get()->where('school_id', auth()->user()->school_id);
-        $departments = Department::get()->where('school_id', auth()->user()->school_id);
-        return view('admin.class.add_class',['subjects' => $subjects,'teachers' => $teachers, 'class_rooms' => $class_rooms,'departments' => $departments ]);
+        $work_units = WorkUnit::get()->where('school_id', auth()->user()->school_id);
+        return view('admin.class.add_class',['subjects' => $subjects,'teachers' => $teachers, 'class_rooms' => $class_rooms,'work_units' => $work_units ]);
     }
 
     public function classCreate(Request $request)
@@ -2528,7 +2686,7 @@ class AdminController extends Controller
                 'teacher_id' => $data['teacher_id'],
                 'time_hours' => $data['time_hours'],
                 'class_room_id' => $data['class_room_id'],
-                'department_id' => $data['department_id'],
+                'work_unit_id' => $data['work_unit_id'],
                 'school_id'  => auth()->user()->school_id,
             ])->id;
 
@@ -2537,11 +2695,11 @@ class AdminController extends Controller
                 'class_id' => $id,
             ]);
 
-            return redirect()->back()->with('message','You have successfully create a new class.');
+            return redirect()->back()->with('message','Tạo mới lớp thành công.');
 
         } else {
             return back()
-            ->with('error','Sorry this class already exists');
+            ->with('error','Lớp đã tồn tại');
         }
     }
 
@@ -2551,8 +2709,8 @@ class AdminController extends Controller
         $subjects = Subject::get()->where('school_id', auth()->user()->school_id);
         $teachers = User::get()->where('school_id', auth()->user()->school_id)->where('role_id', 3);
         $class_rooms = ClassRoom::get()->where('school_id', auth()->user()->school_id);
-        $departments = Department::get()->where('school_id', auth()->user()->school_id);
-        return view('admin.class.edit_class', ['class' => $class ,'subjects' => $subjects ,'teachers' => $teachers , 'class_rooms' => $class_rooms , 'departments' => $departments]);
+        $work_units = WorkUnit::get()->where('school_id', auth()->user()->school_id);
+        return view('admin.class.edit_class', ['class' => $class ,'subjects' => $subjects ,'teachers' => $teachers , 'class_rooms' => $class_rooms , 'work_units' => $work_units]);
     }
 
     public function classUpdate(Request $request, $id)
@@ -2570,7 +2728,7 @@ class AdminController extends Controller
                 'teacher_id' => $data['teacher_id'],
                 'time_hours' => $data['time_hours'],
                 'class_room_id' => $data['class_room_id'],
-                'department_id' => $data['department_id'],
+                'work_unit_id' => $data['work_unit_id'],
                 'school_id'  => auth()->user()->school_id,
             ]);
             
@@ -2937,9 +3095,7 @@ class AdminController extends Controller
             $selected_category = "";
             $date_from = strtotime(date('d-m-Y',strtotime('first day of this month')).' 00:00:00');
             $date_to = strtotime(date('d-m-Y',strtotime('last day of this month')).' 23:59:59');
-            $expenses = Expense::where('date', '>=', $date_from)
-                                ->where('date', '<=', $date_to)
-                                ->where('school_id', auth()->user()->school_id)
+            $expenses = Expense::where('school_id', auth()->user()->school_id)
                                 ->where('session_id', $active_session)
                                 ->get();
             return view('admin.expenses.expense_manager', ['expense_categories' => $expense_categories, 'expenses' => $expenses, 'selected_category' => $selected_category, 'date_from' => $date_from, 'date_to' => $date_to]);

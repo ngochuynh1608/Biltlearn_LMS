@@ -4556,6 +4556,7 @@ input[type=time]::-webkit-calendar-picker-indicator {
   font-size: 14px !important;
   font-weight: 600 !important;
   color: #181c32 !important;
+  border: 1px solid #e0e0e0;
 }
 .eTable > :not(caption) > * > * {
   padding: 11px 16px !important;
@@ -4576,10 +4577,16 @@ input[type=time]::-webkit-calendar-picker-indicator {
 .eTable tbody tr {
   font-size: 12px !important;
   font-weight: 400 !important;
+  padding: 8px;
+}
+
+.eTable  thead {
+    background: #ff9d00;
 }
 .eTable tbody tr th {
   font-size: 12px !important;
   font-weight: 400 !important;
+  padding: 8px;
 }
 .eTable.table-hover > tbody > tr:hover > * {
   background-color: #e3e4ea;

@@ -25,7 +25,7 @@ use App\Models\Department;
                 <select name="workunit_id" id = "workunit_id_on_routine_creation" class="form-select eForm-select eChoice-multiple-with-remove"  required>
                     <option value="">{{ get_phrase('Lựa chọn đơn vị') }}</option>
                     <?php foreach($workunits as $workunit): ?>
-                        <option {{ $student_details->workunit == $workunit->name ?  'selected':'' }}  value="{{ $workunit['name'] }}">{{ $workunit['name'] }}</option>
+                        <option {{ $user->workunit == $workunit->name ?  'selected':'' }}  value="{{ $workunit['name'] }}">{{ $workunit['name'] }}</option>
                     <?php endforeach; ?>
                 </select>
             </div>
@@ -35,7 +35,7 @@ use App\Models\Department;
                 <select name="department_id" id = "department_id_on_routine_creation" class="form-select eForm-select eChoice-multiple-with-remove"  required>
                     <option value="">{{ get_phrase('Lựa chọn phòng ban') }}</option>
                     <?php foreach($departments as $department): ?>
-                        <option {{ $student_details->department == $department->name ?  'selected':'' }} value="{{ $department['name'] }}">{{ $department['name'] }}</option>
+                        <option {{ $user->department == $department->name ?  'selected':'' }} value="{{ $department['name'] }}">{{ $department['name'] }}</option>
                     <?php endforeach; ?>
                 </select>
             </div>
@@ -47,13 +47,8 @@ use App\Models\Department;
 
 
             <div class="fpb-7">
-                <label for="phone" class="eForm-label">{{ get_phrase('Phone number') }}</label>
+                <label for="phone" class="eForm-label">{{ get_phrase('Số điệnt thoại') }}</label>
                 <input type="text" class="form-control eForm-control" value="{{ $info->phone }}" id="phone" name = "phone" placeholder="Provide student number">
-            </div>
-
-            <div class="fpb-7">
-                <label for="phone" class="eForm-label">{{ get_phrase('Address') }}</label>
-                <textarea class="form-control eForm-control" id="address" name = "address" rows="5" placeholder="Provide student address">{{ $info->address }}</textarea>
             </div>
 
             <div class="fpb-7">

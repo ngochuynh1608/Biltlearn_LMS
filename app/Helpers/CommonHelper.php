@@ -15,9 +15,9 @@ if (! function_exists('get_user_image')) {
 
         if($user_id > 0){
             $user_id = $file_name_or_user_id;
-            $user_information = DB::table('users')->where('id', $user_id)->value('user_information');
+            //$user_information = DB::table('users')->where('id', $user_id)->value('user_information');
 
-            $file_name = json_decode($user_information)->photo;
+            $file_name = '';
 
             if(file_exists( public_path().'/assets/uploads/user-images/'.$file_name ) && is_file(public_path().'/assets/uploads/user-images/'.$file_name)){
                 return asset('public/assets/uploads/user-images/'.$file_name);
@@ -128,7 +128,8 @@ if (!function_exists('currency')) {
     {
         $symbol = DB::table('global_settings')->where('key', 'system_currency')->value('value');
         if(!empty($price)){
-            return $price.' '.$symbol;
+            return number_format($price, 0, ',', '.') . "{$symbol}";
+            //return $price.' '.$symbol;
         } else {
             return $symbol;
         }
@@ -140,9 +141,10 @@ if (!function_exists('school_currency')) {
     {
         $symbol = DB::table('schools')->where('id', auth()->user()->school_id)->value('school_currency');
         if(!empty($price)){
-            return $price.' '.$symbol;
+            return number_format($price, 0, ',', '.') . " {$symbol}";
+            //return $price.' '.$symbol;
         } else {
-            return $symbol;
+            return '0'. ' '.$symbol;
         }
     }
 }
@@ -448,5 +450,25 @@ if (!function_exists('subscription_check')) {
         } else {
             return false;
         }
+    }
+}
+
+//get expenses class
+if (!function_exists('get_expenses_class')) {
+    function get_expenses_class($class_id = '')
+    {
+        $amount =  DB::table('expenses')->where('class_id', $class_id)->sum('amount');
+
+        return $amount;
+    }
+}
+
+//count enrollment class
+if (!function_exists('count_enrollment_class')) {
+    function count_enrollment_class($class_id = '')
+    {
+        $count =  DB::table('enrollments')->where('class_id', $class_id)->count('id');
+
+        return $count;
     }
 }

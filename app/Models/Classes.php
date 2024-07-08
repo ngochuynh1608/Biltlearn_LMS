@@ -15,6 +15,6 @@ class Classes extends Model
      * @var array
      */
     protected $fillable = [
-        'code','name','subject_id','school_id','start_date','end_date','time_hours','teacher_id','class_room_id','department_id'
+        'code','name','subject_id','school_id','start_date','end_date','time_hours','teacher_id','class_room_id','work_unit_id'
     ];
 }

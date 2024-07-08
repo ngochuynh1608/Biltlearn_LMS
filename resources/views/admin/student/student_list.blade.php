@@ -17,7 +17,7 @@ use App\Models\Section;
           class="d-flex justify-content-between align-items-center flex-wrap gr-15"
         >
           <div class="d-flex flex-column">
-            <h4>{{ get_phrase('Students') }}</h4>
+            <h4>{{ get_phrase('Học viên') }}</h4>
             <ul class="d-flex align-items-center eBreadcrumb-2">
               <li><a href="#">{{ get_phrase('Bảng điều khiển') }}</a></li>
               <li><a href="#">{{ get_phrase('Nhân sự') }}</a></li>
@@ -63,7 +63,7 @@ use App\Models\Section;
                     id="search"
                     name="search"
                     value="{{ $search }}"
-                    placeholder="Search user"
+                    placeholder="Tìm kiếm học viên"
                     class="form-control"
                   />
                   @if($class_id != '')
@@ -200,22 +200,27 @@ use App\Models\Section;
             @if(count($students) > 0)
             <!-- Table -->
             <div class="table-responsive">
-              <table class="table eTable eTable-2 table-bordered" style="display: block;
-  max-width: -moz-fit-content;
-  max-width: fit-content;
-  margin: 0 auto;
-  overflow-x: auto;
-  white-space: nowrap;">
+              <table class="table eTable" style="display: block;
+                max-width: -moz-fit-content;
+                max-width: fit-content;
+                margin: 0 auto;
+                overflow-x: auto;
+                white-space: nowrap;">
                 <thead style="font-weight: 900;">
                   <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">{{ get_phrase('Name') }}</th>
-                    <th scope="col">{{ get_phrase('Email') }}</th>
-                    <th scope="col">{{ get_phrase('Thông tin đơn vị') }}</th>
-                    <th scope="col">{{ get_phrase('Thông tin cá nhân') }}</th>
+                    <th scope="col"><input type="checkbox" /></th>
+                    <th scope="col">STT</th>
+                    <th scope="col">{{ get_phrase('Đơn vị') }}</th>
+                    <th scope="col">{{ get_phrase('Phòng ban') }}</th>
+                    <th scope="col">{{ get_phrase('Mã học viên') }}</th>
+                    <th scope="col">{{ get_phrase('Tên học viên') }}</th>
                     <th scope="col">{{ get_phrase('Bắt đầu làm việc') }}</th>
-                    <th scope="col">{{ get_phrase('Cam kết bồi hoàn') }}</th>
-                    <th scope="col">{{ get_phrase('Chi phí đào tạo') }}</th>
+                    <th scope="col" style="background: #ebff00;">{{ get_phrase('Số chỉ tiêu đào tạo (giờ )') }}</th>
+                    <th scope="col">{{ get_phrase('Số giờ đã đào tạo') }}</th>
+                    <th scope="col">{{ get_phrase('Tỉ lệ hoàn thành đào tạo') }}</th>
+                    <th scope="col" style="background: #ebff00;">{{ get_phrase('Số chỉ tiêu giảng dạy (giờ)') }}</th>
+                    <th scope="col">{{ get_phrase('Số giờ đã giảng dạy') }}</th>
+                    <th scope="col">{{ get_phrase('Tỉ lệ hoàn thành giảng dạy') }}</th>
                     <th scope="col">{{ get_phrase('Hành động') }}</th>
                 </thead>
                 <tbody>
@@ -228,10 +233,31 @@ use App\Models\Section;
 
                         $student_details = (new CommonController)->get_student_academic_info($user->id);
                     ?>
+
                       <tr>
-                        <th scope="row">
+                        <td scope="row" ><input type="checkbox" /></td>
+                        <td>
                           <p class="row-number">{{ $students->firstItem() + $key }}</p>
-                        </th>
+                        </td>
+                        <td>
+                          <div class="dAdmin_info_name">
+                            <p>{{ $user->workunit }}
+                            </p>
+                          </div>
+
+                        </td>
+                        <td>
+                          <div class="dAdmin_info_name">
+                          <p>
+                              {{ $user->department }}
+                          </p>
+                        </div>
+                        </td>
+                        <td>
+                          <div class="dAdmin_info_name">
+                            <p>{{ $user->code }}</p>
+                          </div>
+                        </td>
                         <td>
                           <div
                             class="dAdmin_profile d-flex align-items-center min-w-200px"
@@ -244,48 +270,49 @@ use App\Models\Section;
                                 src="{{ $user_image }}"
                               />
                             </div>
-                            <div class="dAdmin_profile_name dAdmin_info_name">
-                              <h4>{{ $student->name }}</h4>
-                              <span>{{ get_phrase('Mã nhân viên') }}:</span> {{ $user->code }}
-                              <br>
+                            <div class="dAdmin_info_name">
+                              <p>{{ $student->name }}</p>
                             </div>
                           </div>
                         </td>
                         <td>
                           <div class="dAdmin_info_name">
-                            <p>{{ $student->email }}</p>
-                          </div>
-                        </td>
-                        <td>
-                        <div class="dAdmin_info_name">
-                          <p>
-                              <span>{{ get_phrase('Đơn vị') }}:</span> {{ $user->workunit }}
-                              <br>
-                              <span>{{ get_phrase('Bộ phận') }}:</span> {{ $user->department }}
-                          </p>
-                        </div>
-                        </td>
-                        <td>
-                          <div class="dAdmin_info_name">
-                            <p><span>{{ get_phrase('Điện thoại') }}:</span> {{ $info->phone }}</p>
-                            <p>
-                              <span>{{ get_phrase('Địa chỉ') }}:</span> {{ $info->address }}
-                            </p>
+                            @if($student->workstartdate  != null)
+                              <p>{{ date('d/m/Y') }}</p>
+                            @endif
                           </div>
                         </td>
                         <td>
                           <div class="dAdmin_info_name">
-                            <p>{{ $student->workstartdate }}</p>
+                            50
                           </div>
                         </td>
                         <td>
                           <div class="dAdmin_info_name">
-                            <p>{{ $student->commitnent }}</p>
+                            10.5
                           </div>
                         </td>
                         <td>
                           <div class="dAdmin_info_name">
-                            <p>{{ $student->training_costs }}</p>
+                            <?php  $progress = rand(0,100); ?>
+                            <div class="progress">
+                              <div class="progress-bar" style="width: {{ $progress }}%" role="progressbar" aria-valuenow="{{ $progress }}" aria-valuemin="0" aria-valuemax="100">{{ $progress }} %</div>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="dAdmin_info_name">
+                            0
+                          </div>
+                        </td>
+                        <td>
+                          <div class="dAdmin_info_name">
+0
+                          </div>
+                        </td>
+                        <td>
+                          <div class="dAdmin_info_name">
+0
                           </div>
                         </td>
                         <td>
@@ -296,20 +323,21 @@ use App\Models\Section;
                               data-bs-toggle="dropdown"
                               aria-expanded="false"
                             >
-                              {{ get_phrase('Actions') }}
+                              {{ get_phrase('Hành động') }}
                             </button>
                             <ul
                               class="dropdown-menu dropdown-menu-end eDropdown-menu-2 eDropdown-table-action"
                             >
                               <li>
-                                <a class="dropdown-item" href="javascript:;" onclick="largeModal('{{ route('admin.student.id_card', ['id' => $student->id]) }}', '{{ get_phrase('Generate id card') }}')">{{ get_phrase('Generate Id card') }}</a>
+                                <a class="dropdown-item" href="javascript:;" onclick="rightModal('{{ route('admin.student_edit_modal', ['id' => $student->id]) }}', 'Edit Student')">{{ get_phrase('Chỉnh sửa') }}</a>
+                              </li>
+                              <li>
+                                <a class="dropdown-item" href="javascript:;" onclick="largeModal('{{ route('admin.student.id_card', ['id' => $student->id]) }}', '{{ get_phrase('') }}')">{{ get_phrase('Xem chi tiết học viên') }}</a>
                               </li>
 
+
                               <li>
-                                <a class="dropdown-item" href="javascript:;" onclick="rightModal('{{ route('admin.student_edit_modal', ['id' => $student->id]) }}', 'Edit Student')">{{ get_phrase('Edit') }}</a>
-                              </li>
-                              <li>
-                                <a class="dropdown-item" href="javascript:;" onclick="confirmModal('{{ route('admin.student.delete', ['id' => $student->id]) }}', 'undefined');">{{ get_phrase('Delete') }}</a>
+                                <a class="dropdown-item" href="javascript:;" onclick="confirmModal('{{ route('admin.student.delete', ['id' => $student->id]) }}', 'undefined');">{{ get_phrase('Xóa') }}</a>
                               </li>
                             </ul>
                           </div>
@@ -322,7 +350,7 @@ use App\Models\Section;
               <div
                   class="admin-tInfo-pagi d-flex justify-content-md-between justify-content-center align-items-center flex-wrap gr-15"
                 >
-                  <p class="admin-tInfo">{{ get_phrase('Showing').' 1 - '.count($students).' '.get_phrase('from').' '.$students->total().' '.get_phrase('data') }}</p>
+                  <p class="admin-tInfo">{{ get_phrase('Hiển thị').' 1 - '.count($students).' '.get_phrase('trong').' '.$students->total().' '.get_phrase('học viên') }}</p>
                   <div class="admin-pagi">
                     {!! $students->appends(request()->all())->links() !!}
                   </div>
@@ -396,14 +424,6 @@ use App\Models\Section;
               <p>{{ $student->email }}</p>
             </div>
           </td>
-          <td>
-            <div class="dAdmin_info_name min-w-250px">
-              <p><span>{{ get_phrase('Phone') }}:</span> {{ $info->phone }}</p>
-              <p>
-                <span>{{ get_phrase('Address') }}:</span> {{ $info->address }}
-              </p>
-            </div>
-          </td>
           
         </tr>
       @endforeach
@@ -467,7 +487,9 @@ use App\Models\Section;
   }
 
 </script>
+<style type="text/css">
 
+</style>
 
 <!-- End Students area -->
 @endsection

@@ -41,20 +41,14 @@
                 <input type="text" class="form-control eForm-control" id="time_hours" name = "time_hours" value="">
             </div>
             <div class="fpb-7">
-                <label for="department" class="eForm-label">{{ get_phrase('Đối tượng') }}</label>
-                <select name="workunit_id" id = "workunit_on_class_creation" class="form-select eForm-select eChoice-multiple-with-remove" >
+                <label for="work_unit" class="eForm-label">{{ get_phrase('Đối tượng') }}</label>
+                <select name="work_unit_id" id = "workunit_on_class_creation" class="form-select eForm-select eChoice-multiple-with-remove" >
                     <option value="">{{ get_phrase('Chọn đơn vị') }}</option>
-                    <?php foreach($departments as $department): ?>
-                        <option value="{{ $department['id'] }}">{{ $department->name }}</option>
+                    <?php foreach($work_units as $work_unit): ?>
+                        <option value="{{ $work_unit['id'] }}">{{ $work_unit->name }}</option>
                     <?php endforeach; ?>
                 </select>
                 <hr/>
-                <select name="department_id" id = "department_on_class_creation" class="form-select eForm-select eChoice-multiple-with-remove" >
-                    <option value="">{{ get_phrase('Chọn phòng ban') }}</option>
-                    <?php foreach($departments as $department): ?>
-                        <option value="{{ $department['id'] }}">{{ $department->name }}</option>
-                    <?php endforeach; ?>
-                </select>
             </div>
             <div class="fpb-7">
                 <label for="teacher" class="eForm-label">{{ get_phrase('Giảng viên') }}</label>

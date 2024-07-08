@@ -41,11 +41,11 @@
                 <input type="text" class="form-control eForm-control" id="time_hours" name = "time_hours" value="{{$class->time_hours}}">
             </div>
             <div class="fpb-7">
-                <label for="department" class="eForm-label">{{ get_phrase('Đối tượng') }}</label>
-                <select name="department_id" id = "department_on_class_creation" class="form-select eForm-select eChoice-multiple-with-remove" >
+                <label for="work_unit" class="eForm-label">{{ get_phrase('Đối tượng') }}</label>
+                <select name="work_unit_id" id = "department_on_class_creation" class="form-select eForm-select eChoice-multiple-with-remove" >
                     <option value="">{{ get_phrase('Lựa chọn đối tượng đào tạo') }}</option>
-                    <?php foreach($departments as $department): ?>
-                        <option {{ $class->department_id == $department->id ?  'selected':'' }} value="{{ $department['id'] }}">{{ $department->name }}</option>
+                    <?php foreach($work_units as $work_unit): ?>
+                        <option {{ $class->work_unit_id == $work_unit->id ?  'selected':'' }} value="{{ $work_unit['id'] }}">{{ $work_unit->name }}</option>
                     <?php endforeach; ?>
                 </select>
             </div>
