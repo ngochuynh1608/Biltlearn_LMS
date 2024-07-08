@@ -17,51 +17,60 @@
                 <input type="password" class="form-control eForm-control" id="password" name = "password" required>
             </div>
 
-
-            <div class="fpb-7">
-                <label for="birthday" class="eForm-label">{{ get_phrase('Birthday') }}<span class="required"></span></label>
-                <input type="text" class="form-control eForm-control inputDate" id="birthday" name="birthday" value="{{ date('m/d/Y') }}" />
+            <div class="row fmb-14 justify-content-between align-items-center">
+                <label for="workunit_id" class="col-sm-2 col-eForm-label">{{ get_phrase('Công ty') }}</label>
+                <div class="col-md-10">
+                    <select name="workunit_id" id = "workunit_id_on_routine_creation" class="form-select eForm-select eChoice-multiple-with-remove"  required>
+                        <option value="">{{ get_phrase('Lựa chọn công ty') }}</option>
+                        <?php foreach($data['workunits'] as $workunit): ?>
+                            <option value="{{ $workunit['name'] }}">{{ $workunit['name'] }}</option>
+                        <?php endforeach; ?>
+                    </select>
                 </div>
             </div>
 
-            <div class="fpb-7">
-                <label for="gender" class="eForm-label">{{ get_phrase('Gender') }}</label>
-                <select name="gender" id="gender" class="form-select eForm-select eChoice-multiple-with-remove"  required>
-                    <option value="">{{ get_phrase('Select gender') }}</option>
-                    <option value="Male">{{ get_phrase('Male') }}</option>
-                    <option value="Female">{{ get_phrase('Female') }}</option>
-                    <option value="Others">{{ get_phrase('Others') }}</option>
-                </select>
+            <div class="row fmb-14 justify-content-between align-items-center">
+                <label for="khoi" class="col-sm-2 col-eForm-label">{{ get_phrase('Khối') }}</label>
+                <div class="col-sm-10 col-md-9 col-lg-10">
+                    <input type="text" class="form-control eForm-control" id="khoi" name="khoi">
+                </div>
             </div>
 
+            <div class="row fmb-14 justify-content-between align-items-center">
+                <label for="department_id" class="col-sm-2 col-eForm-label">{{ get_phrase('Bộ phận') }}</label>
+                <div class="col-md-10">
+                    <select name="department_id" id = "department_id_on_routine_creation" class="form-select eForm-select eChoice-multiple-with-remove"  required>
+                        <option value="">{{ get_phrase('Lựa chọn phòng ban') }}</option>
+                        <?php foreach($data['departments'] as $department): ?>
+                            <option value="{{ $department['name'] }}">{{ $department['name'] }}</option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+
+        <div class="row fmb-14 justify-content-between align-items-center">
+            <label for="title" class="col-sm-2 col-eForm-label">{{ get_phrase('Chức danh') }}</label>
+            <div class="col-sm-10 col-md-9 col-lg-10">
+                <input type="text" class="form-control eForm-control" id="title" name="title">
+            </div>
+        </div>
+
+        <div class="row fmb-14 justify-content-between align-items-center">
+            <label for="level_id" class="col-sm-2 col-eForm-label">{{ get_phrase('Level') }}</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control eForm-control" id="level" name="level">
+            </div>
+        </div>
+
+
             <div class="fpb-7">
-                <label for="phone" class="eForm-label">{{ get_phrase('Phone number') }}</label>
+                <label for="phone" class="eForm-label">{{ get_phrase('Số điện thoại') }}</label>
                 <input type="text" class="form-control eForm-control" id="phone" name = "phone" required>
             </div>
 
             <div class="fpb-7">
-                <label for="blood_group" class="eForm-label">{{ get_phrase('Blood group') }}</label>
-                <select name="blood_group" id="blood_group" class="form-select eForm-select eChoice-multiple-with-remove">
-                    <option value="">{{ get_phrase('Select a blood group') }}</option>
-                    <option value="a+">{{ get_phrase('A+') }}</option>
-                    <option value="a-">{{ get_phrase('A-') }}</option>
-                    <option value="b+">{{ get_phrase('B+') }}</option>
-                    <option value="b-">{{ get_phrase('B-') }}</option>
-                    <option value="ab+">{{ get_phrase('AB+') }}</option>
-                    <option value="ab-">{{ get_phrase('AB-') }}</option>
-                    <option value="o+">{{ get_phrase('O+') }}</option>
-                    <option value="o-">{{ get_phrase('O-') }}</option>
-                </select>
-            </div>
-
-            <div class="fpb-7">
-                <label for="phone" class="eForm-label">{{ get_phrase('Address') }}</label>
-                <textarea class="form-control eForm-control" id="address" name = "address" rows="5" required></textarea>
-            </div>
-
-            <div class="fpb-7">
               <label for="formFile" class="eForm-label"
-                >{{ get_phrase('Photo') }}</label
+                >{{ get_phrase('Ảnh') }}</label
               >
               <input
                 class="form-control eForm-control-file"
@@ -71,7 +80,7 @@
             </div>
 
             <div class="fpb-7 pt-2">
-                <button class="btn-form" type="submit">{{ get_phrase('Create') }}</button>
+                <button class="btn-form" type="submit">{{ get_phrase('Tạo mới') }}</button>
             </div>
         </div>
     </form>

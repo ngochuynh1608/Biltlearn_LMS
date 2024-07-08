@@ -25,56 +25,6 @@
             </div>
         </div>
 
-
-
-        <div class="row fmb-14 justify-content-between align-items-center">
-            <label for="workunit_id" class="col-sm-2 col-eForm-label">{{ get_phrase('Công ty') }}</label>
-            <div class="col-md-10">
-                <select name="workunit_id" id = "workunit_id_on_routine_creation" class="form-select eForm-select eChoice-multiple-with-remove"  required>
-                    <option value="">{{ get_phrase('Lựa chọn công ty') }}</option>
-                    <?php foreach($data['workunits'] as $workunit): ?>
-                        <option value="{{ $workunit['name'] }}">{{ $workunit['name'] }}</option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-        </div>
-
-        <div class="row fmb-14 justify-content-between align-items-center">
-            <label for="khoi" class="col-sm-2 col-eForm-label">{{ get_phrase('Khối') }}</label>
-            <div class="col-sm-10 col-md-9 col-lg-10">
-                <input type="text" class="form-control eForm-control" id="khoi" name="khoi">
-            </div>
-        </div>
-
-        <div class="row fmb-14 justify-content-between align-items-center">
-            <label for="department_id" class="col-sm-2 col-eForm-label">{{ get_phrase('Bộ phận') }}</label>
-            <div class="col-md-10">
-                <select name="department_id" id = "department_id_on_routine_creation" class="form-select eForm-select eChoice-multiple-with-remove"  required>
-                    <option value="">{{ get_phrase('Lựa chọn phòng ban') }}</option>
-                    <?php foreach($data['departments'] as $department): ?>
-                        <option value="{{ $department['name'] }}">{{ $department['name'] }}</option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-        </div>
-
-
-
-        <div class="row fmb-14 justify-content-between align-items-center">
-            <label for="title" class="col-sm-2 col-eForm-label">{{ get_phrase('Chức danh') }}</label>
-            <div class="col-sm-10 col-md-9 col-lg-10">
-                <input type="text" class="form-control eForm-control" id="title" name="title">
-            </div>
-        </div>
-
-        <div class="row fmb-14 justify-content-between align-items-center">
-            <label for="level_id" class="col-sm-2 col-eForm-label">{{ get_phrase('Level') }}</label>
-            <div class="col-md-10">
-                <input type="text" class="form-control eForm-control" id="level" name="level">
-            </div>
-        </div>
-
-
         
         <div class="row fmb-14 justify-content-between align-items-center">
             <label for="password"

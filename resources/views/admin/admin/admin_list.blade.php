@@ -19,7 +19,7 @@
             </ul>
           </div>
           <div class="export-btn-area">
-            <a href="javascript:;" class="export_btn" onclick="rightModal('{{ route('admin.open_modal') }}', 'Create Admin')">{{ get_phrase('Create Admin') }}</a>
+            <a href="javascript:;" class="export_btn" onclick="rightModal('{{ route('admin.open_modal') }}', 'Create Admin')">{{ get_phrase('Tạo admin') }}</a>
           </div>
         </div>
       </div>
@@ -103,14 +103,14 @@
             @if(count($admins) > 0)
             <!-- Table -->
             <div class="table-responsive">
-              <table class="table eTable eTable-2">
+              <table class="table eTable">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
-                    <th scope="col">{{ get_phrase('Name') }}</th>
+                    <th scope="col">{{ get_phrase('Tên') }}</th>
                     <th scope="col">{{ get_phrase('Email') }}</th>
-                    <th scope="col">{{ get_phrase('User Info') }}</th>
-                    <th scope="col">{{ get_phrase('Oprions') }}</th>
+                    <th scope="col">{{ get_phrase('Số điện thoại') }}</th>
+                    <th scope="col">{{ get_phrase('Hành động') }}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -154,9 +154,6 @@
                         <td>
                           <div class="dAdmin_info_name min-w-250px">
                             <p><span>{{ get_phrase('Phone') }}:</span> {{ $info->phone }}</p>
-                            <p>
-                              <span>{{ get_phrase('Address') }}:</span> {{ $info->address }}
-                            </p>
                           </div>
                         </td>
                         <td>
@@ -167,16 +164,16 @@
                               data-bs-toggle="dropdown"
                               aria-expanded="false"
                             >
-                              {{ get_phrase('Actions') }}
+                              {{ get_phrase('Hành động') }}
                             </button>
                             <ul
                               class="dropdown-menu dropdown-menu-end eDropdown-menu-2 eDropdown-table-action"
                             >
                               <li>
-                                <a class="dropdown-item" href="javascript:;" onclick="rightModal('{{ route('admin.open_edit_modal', ['id' => $admin->id]) }}', '{{ get_phrase('Edit Admin') }}')">{{ get_phrase('Edit') }}</a>
+                                <a class="dropdown-item" href="javascript:;" onclick="rightModal('{{ route('admin.open_edit_modal', ['id' => $admin->id]) }}', '{{ get_phrase('Chỉnh sửa') }}')">{{ get_phrase('Edit') }}</a>
                               </li>
                               <li>
-                                <a class="dropdown-item" href="javascript:;" onclick="confirmModal('{{ route('admin.admin.delete', ['id' => $admin->id]) }}', 'undefined');">{{ get_phrase('Delete') }}</a>
+                                <a class="dropdown-item" href="javascript:;" onclick="confirmModal('{{ route('admin.admin.delete', ['id' => $admin->id]) }}', 'undefined');">{{ get_phrase('Xóa') }}</a>
                               </li>
                             </ul>
                           </div>
@@ -260,9 +257,6 @@
             <td>
               <div class="dAdmin_info_name min-w-250px">
                 <p><span>{{ get_phrase('Phone') }}:</span> {{ $info->phone }}</p>
-                <p>
-                  <span>{{ get_phrase('Address') }}:</span> {{ $info->address }}
-                </p>
               </div>
             </td>
           </tr>

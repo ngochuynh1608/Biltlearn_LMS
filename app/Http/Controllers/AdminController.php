@@ -186,7 +186,10 @@ class AdminController extends Controller
      */
     public function createModal()
     {
-        return view('admin.admin.add_admin');
+        $data['workunits'] = Workunit::get()->where('school_id', auth()->user()->school_id);
+        $data['departments'] = Department::get()->where('school_id', auth()->user()->school_id);
+        $data['classes'] = Classes::get()->where('school_id', auth()->user()->school_id);
+        return view('admin.admin.add_admin',['data' => $data]);
     }
 
     public function adminCreate(Request $request)
@@ -205,11 +208,7 @@ class AdminController extends Controller
         }
 
         $info = array(
-            'gender' => $data['gender'],
-            'blood_group' => $data['blood_group'],
-            'birthday' => strtotime($data['birthday']),
             'phone' => $data['phone'],
-            'address' => $data['address'],
             'photo' => $photo
         );
 
@@ -255,9 +254,6 @@ class AdminController extends Controller
             }
         }
         $info = array(
-            'gender' => $data['gender'],
-            'blood_group' => $data['blood_group'],
-            'birthday' => strtotime($data['birthday']),
             'phone' => $data['phone'],
             'address' => $data['address'],
             'photo' => $photo
@@ -906,7 +902,7 @@ class AdminController extends Controller
             'school_id' => auth()->user()->school_id,
             'user_information' => $data['user_information'],
         ]);
-        return redirect()->back()->with('message','You have successfully add student.');
+        return redirect()->back()->with('message','Tạo học viên thành công.');
     }
 
     public function studentIdCardGenerate($id)
